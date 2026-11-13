@@ -1,0 +1,94 @@
+// Prisma schema для книжного магазина "Раритет"
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Основная таблица книг
+model RaritetBook {
+  id               BigInt    @id @default(autoincrement())
+  slug             String    @unique
+  title            String
+  author           String?
+  description      String    @default("")
+  publisher        String?
+  publicationYear  Int?      @map("publication_year")
+  pages            Int?
+  language         String?
+  binding          String?
+  isbn             String?
+  category         String    @default("Без категории")
+  priceKgs         Int       @map("price_kgs")
+  oldPriceKgs      Int?      @map("old_price_kgs")
+  stock            Int?
+  coverUrl         String?   @map("cover_url")
+  coverTone        String    @default("forest") @map("cover_tone")
+  isFeatured       Boolean   @default(false) @map("is_featured")
+  isPublished      Boolean   @default(false) @map("is_published")
+  sortOrder        Int       @default(100) @map("sort_order")
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Связь с позициями заказов
+  orderItems       RaritetBookOrderItem[]
+
+  @@index([isPublished, sortOrder, createdAt(sort: Desc)], name: "raritet_books_listing_idx")
+  @@map("raritet_books")
+}
+
+// Заказы книг
+model RaritetBookOrder {
+  id                    BigInt    @id @default(autoincrement())
+  orderNumber           String    @unique @map("order_number")
+  accessTokenHash       String    @map("access_token_hash")
+  customerName          String    @map("customer_name")
+  customerPhone         String    @map("customer_phone")
+  customerEmail         String?   @map("customer_email")
+  pickupLocation        String    @map("pickup_location")
+  note                  String    @default("")
+  status                String    @default("pending_payment")
+  paymentStatus         String    @default("pending") @map("payment_status")
+  paymentId             String?   @unique @map("payment_id")
+  paymentUrl            String?   @map("payment_url")
+  totalKgs              Int       @map("total_kgs")
+  currency              String    @default("KGS")
+  reservationExpiresAt  DateTime  @map("reservation_expires_at") @db.Timestamptz
+  createdAt             DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt             DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Связь с позициями заказа
+  items                 RaritetBookOrderItem[]
+
+  @@map("raritet_book_orders")
+}
+
+// Позиции заказов
+model RaritetBookOrderItem {
+  id              BigInt          @id @default(autoincrement())
+  orderId         BigInt          @map("order_id")
+  bookId          BigInt?         @map("book_id")
+  titleSnapshot   String          @map("title_snapshot")
+  quantity        Int
+  unitPriceKgs    Int             @map("unit_price_kgs")
+  lineTotalKgs    Int             @map("line_total_kgs")
+
+  // Связи
+  order           RaritetBookOrder  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  book            RaritetBook?      @relation(fields: [bookId], references: [id], onDelete: SetNull)
+
+  @@map("raritet_book_order_items")
+}
+
+// Настройки магазина
+model RaritetStoreSetting {
+  settingKey    String    @id @map("setting_key")
+  settingValue  Json      @default("{}") @map("setting_value")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("raritet_store_settings")
+}

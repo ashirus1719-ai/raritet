@@ -1,36 +1,265 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Книжный магазин «Раритет» 📚
 
-## Getting Started
+Современный веб-сайт книжного магазина и издательства «Раритет» в Бишкеке с полным функционалом каталога, мультиязычностью и красивым дизайном.
 
-First, run the development server:
+## 🎉 Последние обновления (2026)
+
+✅ **Исправлена 404 на странице "Каталог"** - теперь работает полноценный каталог книг  
+✅ **Полностью обновлен дизайн** - современные шрифты (Playfair Display + Inter), красивые изображения  
+✅ **Добавлена мультиязычность** - переключатель на 3 языка в header (🇷🇺 Русский / 🇰🇬 Кыргызча / 🇬🇧 English)  
+✅ **Заполнена база данных** - 12 книг с полной информацией и изображениями  
+✅ **Красивые изображения** - качественные фотографии для всех категорий  
+✅ **Hover анимации** - плавные эффекты при наведении  
+
+## 🚀 Быстрый старт
 
 ```bash
+# Установка зависимостей
+npm install
+
+# Генерация Prisma Client
+npx prisma generate
+
+# Заполнить базу данных демо-книгами (опционально)
+npm run db:seed
+
+# Запуск в режиме разработки
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте **http://localhost:3000** в браузере.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌍 Мультиязычность
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Сайт поддерживает **3 языка**:
+- 🇷🇺 **Русский** (основной)
+- 🇰🇬 **Кыргызча** (кыргызский)
+- 🇬🇧 **English** (английский)
 
-## Learn More
+**Как переключить язык:**
+1. Кнопка с иконкой глобуса (🌐) в правом верхнем углу header
+2. Выберите нужный язык
+3. Весь контент мгновенно переключится!
 
-To learn more about Next.js, take a look at the following resources:
+Выбранный язык сохраняется в браузере.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📖 Страницы сайта
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Главная** (`/`) - красивый hero, категории с изображениями, информация о магазине
+- **Каталог** (`/books`) - все книги с поиском, фильтрацией и сортировкой
+- **Детали книги** (`/books/[slug]`) - полная информация о книге, автор, цена, описание
+- **О магазине** (`/about`) - история с 1992 года, издательство
+- **Адреса** (`/stores`) - 3 филиала в Бишкеке с контактами
 
-## Deploy on Vercel
+## 🛠 Технологии
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Next.js 16.4.3** - React фреймворк с App Router
+- **TypeScript** - type-safety
+- **Prisma ORM 5.22.0** - работа с PostgreSQL
+- **Neon PostgreSQL** - облачная база данных
+- **Tailwind CSS 4** - стилизация
+- **Lucide React** - иконки
+- **Google Fonts** - Playfair Display + Inter
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Структура проекта
+
+```
+app/
+├── books/               # Каталог книг
+│   ├── page.tsx        # Список всех книг (NEW!)
+│   └── [slug]/         
+│       └── page.tsx    # Детали книги (NEW!)
+├── components/          # React компоненты
+│   ├── LanguageSwitcher.tsx    # Переключатель языков (NEW!)
+│   ├── useTranslation.ts       # Хук для переводов (NEW!)
+│   ├── BookCatalog.tsx         # Компонент каталога
+│   ├── BookDetail.tsx          # Компонент деталей
+│   └── BookCover.tsx           # Обложка книги
+├── about/              # О магазине
+├── stores/             # Адреса магазинов
+├── api/                # API routes
+│   ├── admin/          # Админ endpoints
+│   └── db-check/       # Проверка БД
+└── page.tsx            # Главная (UPDATED!)
+
+lib/
+├── i18n.ts             # Переводы на 3 языка (NEW!)
+├── prisma.ts           # Prisma Client
+├── books.ts            # API книг
+├── db.ts               # Database connection
+└── admin-auth.ts       # Аутентификация
+
+prisma/
+├── schema.prisma       # Database schema
+└── seed.ts             # Seed script (NEW!)
+```
+
+## 🎨 Дизайн и UX
+
+### Шрифты:
+- **Playfair Display** - элегантный serif для заголовков (как в журналах)
+- **Inter** - современный sans-serif для текста
+
+### Визуальные улучшения:
+- 🖼️ Качественные фотографии с Unsplash для категорий
+- ✨ Плавные hover анимации и transitions
+- 🔍 Эффект увеличения изображений при наведении
+- 🌈 Градиенты и тени для глубины
+- 📱 Полностью адаптивный дизайн
+
+### Категории с изображениями:
+1. **Художественная литература** - стопка книг
+2. **Детские книги** - яркие детские издания
+3. **Кыргызстан и культура** - горные пейзажи
+4. **Подарочные издания** - роскошные обложки
+
+## 📚 База данных
+
+### В базе 12 книг:
+1. Кыргызстан: Земля легенд
+2. Манас: Великий эпос
+3. Чингиз Айтматов: Собрание сочинений
+4. Сказки Кыргызстана
+5. Горы Кыргызстана: Фотоальбом
+6. Иссык-Куль: Жемчужина Азии
+7. Кыргызская кухня
+8. Ала-Кийиз: Искусство кыргызских мастериц
+9. Приключения Куйручука
+10. Шелковый путь через Кыргызстан
+11. Бишкек: Город контрастов
+12. Птицы Кыргызстана
+
+Для каждой книги: название, автор, описание, цена, категория, обложка, ISBN, год издания, страницы.
+
+### Модели Prisma:
+
+**RaritetBook** - книги
+- Основная информация (название, автор, описание)
+- Издательские данные (издательство, год, ISBN)
+- Коммерция (цена, скидка, наличие)
+- Категории и теги
+
+**RaritetBookOrder** - заказы
+- Информация о заказе
+- Контакты клиента
+- Статусы и оплата
+
+**RaritetBookOrderItem** - позиции заказов
+- Связь с книгами и заказами
+
+## 💻 Полезные команды
+
+```bash
+# Development
+npm run dev              # Запустить dev сервер
+
+# Database
+npm run db:seed          # Заполнить БД 12 книгами
+npm run db:push          # Обновить схему БД
+npm run db:studio        # Открыть Prisma Studio (визуальный редактор)
+
+# Production
+npm run build            # Собрать production версию
+npm run start            # Запустить production сервер
+
+# Code quality
+npm run lint             # Проверить код
+```
+
+## 🔐 Переменные окружения
+
+Создайте файл `.env.local`:
+
+```env
+DATABASE_URL="postgresql://..."
+ADMIN_PASSWORD="your_secure_password"
+```
+
+## 🎯 Основные функции
+
+### Для посетителей:
+- ✅ Главная страница с красивым hero и категориями
+- ✅ **Полный каталог книг** с поиском и фильтрацией (NEW!)
+- ✅ **Детальные страницы книг** (NEW!)
+- ✅ **Мультиязычность** - 3 языка (NEW!)
+- ✅ Страница "О нас" с историей с 1992 года
+- ✅ Страница "Магазины" с адресами и картами
+- ✅ Адаптивный дизайн для всех устройств
+- ✅ **Красивые изображения** и анимации (NEW!)
+
+### Функционал каталога:
+- 🔍 Поиск по названию и автору
+- 🏷️ Фильтрация по категориям
+- 📊 Сортировка (новые, дешевые, дорогие, название)
+- 📱 Оптимизация для мобильных
+- 🖼️ Изображения обложек
+
+### Для администраторов:
+- ✅ API для управления книгами (CRUD)
+- ✅ Система аутентификации
+- ✅ Защищенные endpoints
+
+## 📝 API Endpoints
+
+### Публичные:
+- `GET /api/books` - получить все опубликованные книги
+
+### Админские (требуется аутентификация):
+- `GET /api/admin/raritet-books` - все книги
+- `POST /api/admin/raritet-books` - создать книгу
+- `PUT /api/admin/raritet-books` - обновить книгу
+- `DELETE /api/admin/raritet-books?id={id}` - удалить книгу
+
+### Аутентификация:
+- `POST /api/admin/session` - войти
+- `GET /api/admin/session` - проверить сессию
+- `DELETE /api/admin/session` - выйти
+
+## 📚 О проекте
+
+**Раритет** - книжный магазин в Бишкеке, работающий с **1992 года**. В 1997 году было основано издательство, выпускающее книги о культуре и истории Кыргызстана.
+
+### Магазины:
+- **Площадь Ала-Тоо** (ул. Пушкина, 78) - главный магазин с музеем прикладного искусства
+- **Проспект Чуй** (пр. Чуй, 271) - магазин в центре города
+- **Asia Mall** (ТРЦ «Азия Mall») - в торговом центре
+
+## 📖 Документация
+
+- **QUICK_START.md** - Быстрый старт (самое важное в 1 странице)
+- **README_NEW.md** - Полная документация всех обновлений
+- **CHANGELOG.md** - Детальная история изменений
+- **UPDATES.md** - Список всех улучшений
+
+## 🔜 Идеи для развития
+
+- [ ] Корзина и оформление заказов
+- [ ] Интеграция с платежными системами
+- [ ] Email уведомления о новых книгах
+- [ ] Личный кабинет пользователя
+- [ ] Система отзывов и рейтингов
+- [ ] Блог и новости магазина
+- [ ] Wishlist (список желаемого)
+- [ ] Рекомендации "Похожие книги"
+
+## ✅ Статус проекта
+
+- ✅ **Сайт полностью функционален**
+- ✅ Все страницы работают без ошибок
+- ✅ База данных заполнена
+- ✅ Мультиязычность работает
+- ✅ Дизайн современный и красивый
+- ✅ Адаптивен для всех устройств
+- ✅ Готов к использованию!
+
+## 📧 Контакты
+
+- **Сайт**: [books.kg](https://books.kg/)
+- **Instagram**: [@raritet_kg](https://www.instagram.com/raritet_kg/)
+- **Телефон**: +996 312 66-45-24
+- **Адрес**: Бишкек, ул. Пушкина, 78
+
+---
+
+**С 1992 года** - Книги, культура и Кыргызстан 📚  
+Создано с ❤️ для любителей хороших книг
