@@ -1,162 +1,57 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Clock, Landmark, Link2, MapPin, Phone } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, BookOpen, Clock3, MapPin, Phone, Search, UserRound } from "lucide-react";
 import styles from "./stores.module.css";
 
 export const metadata: Metadata = {
   title: "Магазины в Бишкеке | Раритет",
-  description: "Адреса, контакты и часы работы книжных магазинов «Раритет» в Бишкеке. Выберите удобный филиал и приезжайте за книгами.",
+  description: "Адреса, контакты и часы работы книжных магазинов «Раритет» в Бишкеке.",
 };
 
 const stores = [
-  {
-    name: "Площадь Ала-Тоо",
-    address: "ул. Пушкина, 78",
-    phone: "+996 312 66-45-24",
-    hours: "Пн-Вс: 10:00 — 18:00",
-    features: ["Магазин", "Музей прикладного искусства"],
-    description: "Наш главный магазин в историческом центре города. Здесь вы найдете самый широкий выбор книг о Кыргызстане, детской литературы и подарочных изданий. На территории магазина работает музей прикладного искусства.",
-    mapLink: "https://maps.google.com/?q=Раритет,+ул.+Пушкина+78,+Бишкек",
-  },
-  {
-    name: "Проспект Чуй",
-    address: "пр. Чуй, 271",
-    phone: "+996 312 34-19-78",
-    hours: "Пн-Сб: 9:00 — 19:00, Вс: 10:00 — 18:00",
-    features: ["Книжный магазин"],
-    description: "Магазин расположен в центре города, недалеко от главных достопримечательностей. Удобная транспортная доступность и большой выбор художественной литературы и классики.",
-    mapLink: "https://maps.google.com/?q=Раритет,+пр.+Чуй+271,+Бишкек",
-  },
-  {
-    name: "Asia Mall",
-    address: "ТРЦ «Азия Mall», 2 этаж",
-    phone: "+996 312 97-55-42",
-    hours: "Пн-Вс: 10:00 — 22:00",
-    features: ["Книжный магазин", "Торговый центр"],
-    description: "Удобное расположение в популярном торговом центре. Широкий выбор современной литературы, детских книг и бестселлеров. Работаем до позднего вечера без выходных.",
-    mapLink: "https://maps.google.com/?q=Asia+Mall,+Бишкек",
-  },
+  { name: "Площадь Ала-Тоо", address: "ул. Пушкина, 78", hours: "Ежедневно 10:00–19:00", phone: "0555 790 755", image: "/images/store-ala-too.webp", map: "Раритет, ул. Пушкина 78, Бишкек" },
+  { name: "Проспект Чуй", address: "пр. Чуй, 271", hours: "Ежедневно 10:00–19:00", phone: "+996 312 34-19-78", image: "/images/store-prospekt-chuy.webp", map: "Раритет, проспект Чуй 271, Бишкек" },
+  { name: "ТРЦ Asia Mall", address: "пр. Чынгыза Айтматова, 3 · 1 этаж", hours: "Ежедневно 10:00–22:00", phone: "+996 312 97-55-42", image: "/images/store-asia-mall.webp", map: "Asia Mall, Бишкек" },
+  { name: "ГУМ «Чынар»", address: "пр. Чуй, 92 · 4 этаж", hours: "Ежедневно 10:00–22:00", phone: "+996 312 88-24-45", image: "/images/store-gum-chynar.webp", map: "ГУМ Чынар, Бишкек" },
+  { name: "ТЦ Tommi Mall", address: "ул. Аалы Токомбаева, 17/2 · 3 этаж", hours: "Ежедневно 10:00–22:00", phone: "0555 790 750", image: "/images/store-tommi-mall.webp", map: "Tommi Mall, Бишкек", wide: true },
 ];
 
 export default function StoresPage() {
   return (
     <main className={styles.storesPage}>
-      <header className={styles.pageHeader}>
-        <div className={styles.container}>
-          <Link href="/" className={styles.backLink}>← Главная</Link>
-          <div className={styles.headerContent}>
-            <div className={styles.headerBadge}>
-              <MapPin size={18} />
-              <span>БИШКЕК</span>
-            </div>
-            <h1>Наши магазины</h1>
-            <p className={styles.lead}>Выберите удобный адрес и приезжайте за новыми книгами и впечатлениями</p>
-          </div>
-        </div>
+      <header className={`site-header ${styles.siteHeader}`}>
+        <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={39}/><span>РАРИТЕТ</span></Link>
+        <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores" aria-current="page">Магазины</Link><Link href="/#contacts">Контакты</Link></nav>
+        <div className="header-tools"><Link href="/books" aria-label="Поиск"><Search size={21}/></Link><Link href="/stores" aria-label="Магазины"><UserRound size={21}/></Link></div>
       </header>
-
-      <section className={styles.storesSection}>
-        <div className={styles.container}>
-          <div className={styles.storesGrid}>
-            {stores.map((store, index) => (
-              <article key={store.name} className={styles.storeCard}>
-                <div className={styles.storeHeader}>
-                  <div className={styles.storeNumber}>{String(index + 1).padStart(2, "0")}</div>
-                  <div className={styles.storeFeatures}>
-                    {store.features.map((feature) => (
-                      <span key={feature} className={styles.featureBadge}>{feature}</span>
-                    ))}
-                  </div>
-                </div>
-
-                <h2>{store.name}</h2>
-                <p className={styles.storeDescription}>{store.description}</p>
-
-                <div className={styles.storeDetails}>
-                  <div className={styles.detailRow}>
-                    <MapPin size={18} />
-                    <div>
-                      <span className={styles.detailLabel}>Адрес</span>
-                      <strong>{store.address}</strong>
-                    </div>
-                  </div>
-
-                  <div className={styles.detailRow}>
-                    <Clock size={18} />
-                    <div>
-                      <span className={styles.detailLabel}>Часы работы</span>
-                      <strong>{store.hours}</strong>
-                    </div>
-                  </div>
-
-                  <div className={styles.detailRow}>
-                    <Phone size={18} />
-                    <div>
-                      <span className={styles.detailLabel}>Телефон</span>
-                      <a href={`tel:${store.phone.replace(/[^+\d]/g, "")}`} className={styles.phoneLink}>
-                        {store.phone}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.storeActions}>
-                  <a href={store.mapLink} target="_blank" rel="noopener noreferrer" className={`${styles.actionButton} ${styles.primary}`}>
-                    <MapPin size={16} />
-                    Построить маршрут
-                  </a>
-                  <a href={`tel:${store.phone.replace(/[^+\d]/g, "")}`} className={`${styles.actionButton} ${styles.secondary}`}>
-                    <Phone size={16} />
-                    Позвонить
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
+      <section className={styles.hero}>
+        <div className={styles.heroCopy}>
+          <p className={styles.eyebrow}><i/>✦ <span>ГДЕ НАС НАЙТИ</span></p>
+          <h1>Наши<br/>магазины</h1>
+          <h2>Ближе к вам, ближе к книгам</h2>
+          <p>Пять книжных магазинов в Бишкеке —<br className={styles.desktopBreak}/> выберите удобный адрес.</p>
+          <a className={styles.heroButton} href="#store-list">Выбрать магазин <ArrowRight size={17}/></a>
+        </div>
+        <div className={styles.mapPins} aria-hidden="true"><span><BookOpen/></span><span><BookOpen/></span><span><BookOpen/></span><span><BookOpen/></span><span><BookOpen/></span></div>
+      </section>
+      <section className={styles.storesSection} id="store-list">
+        <div className={styles.sectionTitle}><span/>✦<h2>Выберите ближайший магазин</h2><span/></div>
+        <div className={styles.storesGrid}>
+          {stores.map((store) => <article className={`${styles.storeCard} ${store.wide ? styles.wideCard : ""}`} key={store.name}>
+            <div className={styles.storeText}><h3><MapPin/>{store.name}</h3><p><MapPin/>{store.address}</p><p><Clock3/>{store.hours}</p><p><Phone/>{store.phone}</p><a href={`https://maps.google.com/?q=${encodeURIComponent(store.map)}`} target="_blank" rel="noreferrer" className={styles.routeLink}>Маршрут <ArrowRight/></a></div>
+            <Image src={store.image} alt={`Книжный магазин «Раритет» — ${store.name}`} width={700} height={450} loading="lazy"/>
+          </article>)}
         </div>
       </section>
-
-      <section className={styles.infoSection}>
-        <div className={styles.container}>
-          <div className={styles.infoGrid}>
-            <div className={styles.infoCard}>
-              <Clock size={32} strokeWidth={1.5} />
-              <h3>Актуальный график</h3>
-              <p>Перед визитом рекомендуем уточнить время работы по телефону, так как в праздничные дни график может меняться.</p>
-            </div>
-
-            <div className={styles.infoCard}>
-              <Landmark size={32} strokeWidth={1.5} />
-              <h3>Музей на Ала-Тоо</h3>
-              <p>В магазине на площади Ала-Тоо работает музей прикладного искусства. Посещение бесплатное в часы работы магазина.</p>
-            </div>
-
-            <div className={styles.infoCard}>
-              <Phone size={32} strokeWidth={1.5} />
-              <h3>Консультация по телефону</h3>
-              <p>Позвоните нам, чтобы уточнить наличие конкретной книги, узнать о новинках или задать любые вопросы.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.contactSection}>
-        <div className={styles.container}>
-          <div className={styles.contactContent}>
-            <h2>Не нашли нужную книгу?</h2>
-            <p>Позвоните в любой из наших магазинов, и сотрудники помогут подобрать издание или примут заказ на поиск книги.</p>
-            <div className={styles.contactButtons}>
-              <Link href="/books" className={styles.contactBtn}>
-                Посмотреть каталог
-              </Link>
-              <a href="https://www.instagram.com/raritet_kg/" target="_blank" rel="noopener noreferrer" className={`${styles.contactBtn} ${styles.secondary}`}>
-                <Link2 size={16} />
-                Instagram
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Link href="/books" className={styles.bookBanner}><span>Ждём вас за новыми историями</span><ArrowRight/></Link>
+      <footer className={`site-footer ${styles.footer}`} id="contacts">
+        <div className={styles.footerBrand}><Link className="wordmark" href="/"><BookOpen size={42}/><span>РАРИТЕТ<small>Книги. Культура. Кыргызстан.</small></span></Link></div>
+        <div><h3>Магазины</h3><p>5 филиалов в Бишкеке</p><Link href="#store-list">Все магазины <ArrowRight/></Link></div>
+        <div><h3>Контакты</h3><a href="tel:+996312341978">(0312) 34-19-78</a><a href="mailto:info@raritet.kg">info@raritet.kg</a></div>
+        <div><h3>Мы в соцсетях</h3><a href="https://www.instagram.com/raritet_kg/" target="_blank" rel="noreferrer">Instagram ↗</a></div>
+        <p className={styles.copyright}>© 2025 Раритет. Все права защищены.</p>
+      </footer>
     </main>
   );
 }
