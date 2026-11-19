@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteFooter from "@/app/components/SiteFooter";
-import { ArrowRight, BookOpen, MapPin, Search, Users } from "lucide-react";
+import { ArrowRight, BookOpen, MapPin, Menu, Search, Users } from "lucide-react";
 import styles from "./about.module.css";
 import { getContent } from "@/lib/site-content";
 
@@ -22,6 +22,10 @@ export default async function AboutPage() {
         <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={42} strokeWidth={1.5}/><span>РАРИТЕТ</span></Link>
         <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books">Каталог</Link><Link href="/about" aria-current="page">О компании</Link><Link href="/stores">Магазины</Link><Link href="/#contacts">Контакты</Link></nav>
         <div className="header-tools"><Link href="/books" aria-label="Поиск по каталогу"><Search size={22}/></Link><Link href="/stores" aria-label="Наши магазины"><MapPin size={21}/></Link></div>
+        <details className={styles.menu}>
+          <summary aria-label="Открыть меню"><Menu size={26} strokeWidth={1.8}/></summary>
+          <div className={styles.menuPanel}><Link href="/">Главная</Link><Link href="/books">Каталог</Link><Link href="/about" aria-current="page">О компании</Link><Link href="/stores">Магазины</Link><Link href="/#contacts">Контакты</Link></div>
+        </details>
       </header>
       <section className={styles.hero}>
         <div className={styles.copy}>
