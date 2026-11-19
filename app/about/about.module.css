@@ -508,23 +508,12 @@
   .note{bottom:28px}
 }
 
-/* Hamburger menu (mobile only) */
-.menu{display:none}
-
 /* Mobile layout matching the supplied reference */
 @media(max-width:650px){
   .aboutPage{background:#102d20}
   .header{position:absolute!important;inset:0 0 auto;height:96px!important;padding:0 7%!important;background:transparent!important}
   .header :global(.wordmark){font-size:22px;gap:12px;font-weight:700;letter-spacing:.02em;color:#12301f}
   .header :global(.brand-mark){width:36px;height:36px;stroke-width:1.7}
-  .header :global(.header-tools){display:none}
-  .menu{display:block;position:relative}
-  .menu summary{list-style:none;width:46px;height:46px;display:grid;place-items:center;border-radius:13px;cursor:pointer;color:#12301f;background:#f6efe399;border:1px solid #ffffffa6;box-shadow:0 4px 14px #3b2a1426,inset 0 1px 0 #fff9;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-  .menu summary::-webkit-details-marker{display:none}
-  .menuPanel{position:absolute;right:0;top:56px;min-width:200px;display:flex;flex-direction:column;padding:8px;border-radius:18px;background:#f8f1e4f5;border:1px solid #dcc6a0;box-shadow:0 14px 34px #1b241b33;backdrop-filter:blur(12px)}
-  .menuPanel a{padding:12px 14px;border-radius:12px;font:500 16px/1.2 var(--serif);color:#12301f}
-  .menuPanel a[aria-current=page]{background:#102d20;color:#fff}
-
   .hero{min-height:100svh;flex-direction:column;align-items:stretch;padding:112px 7% calc(108px + env(safe-area-inset-bottom));background:#efe2cb url('/images/about-mobile-bg.webp') 72% top/cover no-repeat}
   .hero:before{display:block;background:linear-gradient(90deg,#f7ecdcf2 0%,#f7ecdcd9 42%,#f7ecdc66 66%,#f7ecdc00 84%),linear-gradient(180deg,#f7ecdc80 0%,#f7ecdc00 40%,#f7ecdc00 70%,#10281c55 100%)}
   .mountainLine{display:none}
@@ -549,8 +538,3 @@
   .noteStar:before,.noteStar:after{content:"";flex:1;height:1px;background:#cdb88f}
 }
 
-/* Reference has no bottom tab bar on this screen — the hamburger menu provides navigation */
-@media(max-width:650px){
-  :global(body):has(.aboutPage) :global(.mobile-bottom-nav){display:none}
-  .hero{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
-}
