@@ -6,6 +6,7 @@ import styles from "./BookStore.module.css";
 
 export default function BookPurchaseForm({ slug, stock }: { slug: string; stock: number | null }) {
   const router = useRouter();
+  const maxQuantity = stock === null ? 10 : Math.max(0, Math.min(stock, 10));
   const [quantity, setQuantity] = useState(1);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +42,7 @@ export default function BookPurchaseForm({ slug, stock }: { slug: string; stock:
     }
   }
 
-  if (stock === 0) return <p className={styles.purchaseUnavailable}>Эта книга сейчас недоступна для заказа.</p>;
+  if (maxQuantity === 0) return <p className={styles.purchaseUnavailable}>Эта книга сейчас недоступна для заказа.</p>;
 
   return (
     <form className={styles.purchaseForm} onSubmit={submit}>
@@ -50,7 +51,10 @@ export default function BookPurchaseForm({ slug, stock }: { slug: string; stock:
       <label>Телефон<input name="customerPhone" required minLength={7} maxLength={30} type="tel" autoComplete="tel" placeholder="+996 …" /></label>
       <label>Электронная почта <span>необязательно</span><input name="customerEmail" type="email" maxLength={254} autoComplete="email" /></label>
       <label>Количество
-        <input name="quantity" type="number" min={1} max={Math.min(stock ?? 10, 10)} value={quantity} onChange={(event) => setQuantity(Number(event.target.value))} />
+        <input name="quantity" type="number" min={1} max={maxQuantity} value={Math.min(quantity, maxQuantity)} onChange={(event) => {
+          const nextQuantity = Number(event.target.value);
+          setQuantity(Number.isFinite(nextQuantity) ? Math.max(1, Math.min(nextQuantity, maxQuantity)) : 1);
+        }} />
       </label>
       <label>Комментарий <span>необязательно</span><textarea name="note" rows={2} maxLength={500} /></label>
       <p className={styles.pickupNote}>Получение: самовывоз из книжного магазина «Раритет» в Бишкеке.</p>
