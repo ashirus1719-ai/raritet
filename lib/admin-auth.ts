@@ -1,21 +1,32 @@
-// Простая проверка пароля для админ-панели
-// В production следует использовать более надежную аутентификацию
+import { createHmac, timingSafeEqual } from "node:crypto";
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "raritet2024";
+// Пароль берётся только из переменной окружения ADMIN_PASSWORD (.env.local).
+// Если она не задана, вход закрыт.
+function getPassword(): string | null {
+  return process.env.ADMIN_PASSWORD || null;
+}
+
+function sign(password: string): string {
+  return createHmac("sha256", password).update("raritet-admin-session").digest("hex");
+}
+
+function safeEqual(a: string, b: string): boolean {
+  const x = Buffer.from(a);
+  const y = Buffer.from(b);
+  return x.length === y.length && timingSafeEqual(x, y);
+}
 
 export function checkAdminAuth(password: string): boolean {
-  return password === ADMIN_PASSWORD;
+  const expected = getPassword();
+  return !!expected && typeof password === "string" && safeEqual(password, expected);
 }
 
 export function isValidSession(sessionToken: string | null): boolean {
-  if (!sessionToken) return false;
-  // Простая проверка токена (в production использовать JWT или session store)
-  return sessionToken === Buffer.from(ADMIN_PASSWORD).toString("base64");
+  const expected = getPassword();
+  if (!expected || !sessionToken) return false;
+  return safeEqual(sessionToken, sign(expected));
 }
 
 export function createSessionToken(password: string): string | null {
-  if (checkAdminAuth(password)) {
-    return Buffer.from(password).toString("base64");
-  }
-  return null;
+  return checkAdminAuth(password) ? sign(getPassword()!) : null;
 }

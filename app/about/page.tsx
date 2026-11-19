@@ -1,14 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SiteFooter from "@/app/components/SiteFooter";
 import { ArrowRight, BookOpen, MapPin, Search, Users } from "lucide-react";
 import styles from "./about.module.css";
+import { getContent } from "@/lib/site-content";
+
+export const dynamic = "force-dynamic";
+
+const icons = { book: BookOpen, users: Users, map: MapPin };
 
 export const metadata: Metadata = {
   title: "О компании | Раритет",
   description: "Раритет — книжный магазин, издательство и пространство культуры Кыргызстана с 1992 года.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const about = await getContent("about");
   return (
     <main className={styles.aboutPage}>
       <header className={`site-header ${styles.header}`}>
@@ -19,20 +26,18 @@ export default function AboutPage() {
       <section className={styles.hero}>
         <div className={styles.copy}>
           <div className={styles.eyebrow}><span/>✦ <b>О НАС</b><span/></div>
-          <h1>О компании</h1>
-          <h2>Раритет — больше, чем книжный магазин</h2>
-          <p className={styles.description}>Мы — книжный магазин «Раритет», где каждая книга находит своего читателя. Наша миссия — сохранять книжную культуру, вдохновлять на знания и создавать уютное пространство для всех, кто любит книги.</p>
+          <h1>{about.title}</h1>
+          <h2>{about.subtitle}</h2>
+          <p className={styles.description}>{about.description}</p>
           <div className={styles.stats}>
-            <div><BookOpen/><strong>10+</strong><span>лет с вами</span></div>
-            <div><Users/><strong>50 000+</strong><span>довольных читателей</span></div>
-            <div><BookOpen/><strong>100 000+</strong><span>книг в каталоге</span></div>
-            <div><MapPin/><strong>5</strong><span>магазинов по КР</span></div>
+            {about.stats.map((st, i) => { const Icon = icons[st.icon] ?? BookOpen; return <div key={i}><Icon/><strong>{st.value}</strong><span>{st.label}</span></div>; })}
           </div>
           <Link href="/books" className={styles.button}>Узнать больше <ArrowRight size={17}/></Link>
         </div>
-        <div className={styles.note}><span className={styles.noteIcon}><BookOpen/></span><strong>Раритет — это традиции,<br/>которые вдохновляют</strong><span className={styles.noteStar}>✦</span></div>
+        <div className={styles.note}><span className={styles.noteIcon}><BookOpen/></span><strong>{about.note}</strong><span className={styles.noteStar}>✦</span></div>
         <div className={styles.mountainLine} aria-hidden="true"/>
       </section>
+      <SiteFooter />
     </main>
   );
 }

@@ -119,3 +119,22 @@
   .category-ribbon a span{max-width:104px}
   .category-ribbon a svg{width:27px;height:27px}
 }
+
+/* ── Landing: soft, seamless transitions between sections ── */
+.home-page{background:var(--bg)}
+.first-screen::after{height:140px;background:linear-gradient(180deg,rgba(247,240,230,0) 0%,rgba(247,240,230,.65) 55%,var(--bg) 100%)}
+.category-ribbon{position:relative;background:var(--bg)!important;border-bottom:0!important}
+.category-ribbon::before,.category-ribbon::after{content:"";position:absolute;left:6%;right:6%;height:1px;z-index:2;pointer-events:none;background:linear-gradient(90deg,transparent,#cbb892 20%,#cbb892 80%,transparent)}
+.category-ribbon::before{top:0}
+.category-ribbon::after{bottom:0}
+.kyrgyzstan-section::before{background:linear-gradient(180deg,var(--bg) 0%,rgba(247,240,230,0) 22%,rgba(247,240,230,0) 74%,var(--bg) 100%),linear-gradient(90deg,#f7f0e6f7 0%,#f7f0e6ed 34%,#f7f0e69c 53%,#f7f0e61c 76%,transparent 100%)!important}
+.about-feature{background:var(--bg)!important}
+.store-photo{background-image:linear-gradient(90deg,rgba(247,240,230,0) 55%,var(--bg) 100%),linear-gradient(180deg,var(--bg) 0%,rgba(247,240,230,0) 16%,rgba(247,240,230,0) 84%,var(--bg) 100%),url("/images/raritet-store-interior.png")!important;background-size:100% 100%,100% 100%,cover!important;background-position:center,center,center 55%!important;background-repeat:no-repeat!important}
+.museum-banner{box-shadow:0 18px 40px #10261a2e;background-color:#102c20;background-image:linear-gradient(180deg,#102b20d9 0%,rgba(16,43,32,0) 24%,rgba(16,43,32,0) 80%,#102b20 100%),linear-gradient(90deg,#102c20f5 0%,#102c20df 33%,#102c2066 69%,#102c2010 100%),url("/images/applied-arts-museum.png")!important}
+@media(max-width:760px){
+  .first-screen::after{height:90px}
+  .category-ribbon::before,.category-ribbon::after{left:4%;right:4%}
+  .kyrgyzstan-section{background:var(--bg)!important}
+  .museum-banner{background-color:#102c20!important;background-size:100% 100%,100% 100%,cover!important;background-position:center,center,62% center!important}
+  .store-photo{background-image:linear-gradient(180deg,rgba(247,240,230,0) 78%,var(--bg) 100%),url("/images/raritet-store-interior.png")!important;background-size:100% 100%,cover!important;background-position:center,center 55%!important;border-radius:14px 14px 0 0}
+}

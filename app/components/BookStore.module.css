@@ -693,6 +693,44 @@
   transform: translateY(-2px);
 }
 
+.purchaseForm {
+  display: grid;
+  gap: 12px;
+  max-width: 440px;
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #ded5c9;
+  border-radius: 18px;
+  background: #fbf8f2;
+}
+
+.purchaseForm h2 { margin: 0 0 2px; color: #173f2e; font: 500 24px/1.2 var(--serif, Georgia, serif); }
+.purchaseForm label { display: grid; gap: 6px; color: #3e5145; font-size: 13px; font-weight: 650; }
+.purchaseForm label span { color: #788176; font-weight: 400; }
+.purchaseForm input,
+.purchaseForm textarea { width: 100%; min-height: 42px; border: 1px solid #d9cebe; border-radius: 10px; padding: 9px 11px; background: #fffdf9; color: #17281e; font: 14px var(--sans, Arial, sans-serif); }
+.purchaseForm textarea { resize: vertical; }
+.purchaseForm button,
+.orderPayButton { min-height: 48px; border: 0; border-radius: 12px; padding: 0 16px; background: #173f2e; color: #fff; font: 650 14px var(--sans, Arial, sans-serif); cursor: pointer; }
+.purchaseForm button:disabled,
+.orderPayButton:disabled { opacity: .6; cursor: wait; }
+.purchaseForm small,
+.pickupNote { margin: 0; color: #6d776e; font-size: 12px; line-height: 1.5; }
+.purchaseError { margin: 0; color: #9d4035; font-size: 13px; line-height: 1.5; }
+.purchaseUnavailable { max-width: 420px; margin-top: 24px; color: #9d4035; font-weight: 650; }
+.orderPage { width: min(680px, 88%); margin: 56px auto 90px; padding: clamp(24px, 5vw, 48px); border: 1px solid #e0d6c7; border-radius: 24px; background: #fbf8f2; }
+.orderPage h1 { margin: 12px 0 6px; color: #173f2e; font: 500 clamp(34px, 6vw, 54px)/1.05 var(--serif, Georgia, serif); }
+.orderNumber { margin: 0 0 24px; color: #6d776e; font-size: 14px; }
+.orderItems { display: grid; gap: 14px; padding: 20px 0; border-top: 1px solid #ded5c9; border-bottom: 1px solid #ded5c9; }
+.orderItems > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; color: #445449; font-size: 14px; }
+.orderItems strong { color: #173f2e; white-space: nowrap; }
+.orderItems .orderTotal { padding-top: 12px; border-top: 1px solid #ded5c9; color: #17281e; font-size: 16px; }
+.orderPaymentState { margin: 20px 0 14px; color: #3e5145; line-height: 1.6; }
+.orderPayButton { width: 100%; }
+.orderBackLink { display: inline-block; margin-top: 24px; color: #315d48; font-size: 14px; font-weight: 650; }
+
+.smallPrint a { color: #315d48; text-decoration: underline; }
+
 .smallPrint {
   max-width: 420px;
   margin-top: 10px;

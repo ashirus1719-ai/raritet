@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, BookOpen, CalendarDays, Languages, Layers3, MapPin } from "lucide-react";
+import { ArrowLeft, BookOpen, CalendarDays, Languages, Layers3 } from "lucide-react";
 import type { Book } from "@/lib/books";
 import BookCover from "@/app/components/BookCover";
+import BookPurchaseForm from "@/app/components/BookPurchaseForm";
 import styles from "./BookStore.module.css";
 
 export default function BookDetail({ book, related }: { book: Book; related: Book[] }) {
@@ -18,8 +19,8 @@ export default function BookDetail({ book, related }: { book: Book; related: Boo
         <div className={styles.detailCopy}><p className={styles.kicker}>{book.category.toUpperCase()}</p><h1>{book.title}</h1>{book.author && <p className={styles.detailAuthor}>Книга {book.author}</p>}<p className={styles.detailDescription}>{book.description || "Книга из каталога Раритет. Подробности об издании можно уточнить у сотрудников магазина."}</p>
           <div className={styles.detailPrice}><strong>{new Intl.NumberFormat("ru-RU").format(book.priceKgs)} <small>сом</small></strong>{book.oldPriceKgs && <del>{new Intl.NumberFormat("ru-RU").format(book.oldPriceKgs)} сом</del>}</div>
           <div className={styles.availability}><span className={book.stock === null ? styles.statusUnknown : book.stock > 0 ? styles.statusAvailable : styles.statusUnavailable} />{book.stock === null ? "Уточните наличие у магазина" : book.stock > 0 ? `В наличии: ${book.stock} шт.` : "Сейчас нет в наличии"}</div>
-          <a className={styles.contactButton} href="tel:+996312664524"><MapPin size={17} />Уточнить наличие и заказать <ArrowUpRight size={16} /></a>
-          <p className={styles.smallPrint}>Перед визитом проверьте наличие книги по телефону или в Instagram.</p>
+          <BookPurchaseForm slug={book.slug} stock={book.stock} />
+          <p className={styles.smallPrint}>Вопросы о наличии и самовывозе: <a href="tel:+996312664524">+996 312 664 524</a>.</p>
           {details.length > 0 && <div className={styles.detailSpecs}><div className={styles.specTitle}><span>01</span><strong>Об этом издании</strong></div>{details.map(([label, value]) => <div className={styles.specRow} key={String(label)}><span>{label}</span><strong>{value}</strong></div>)}</div>}
         </div>
       </section>

@@ -1,4 +1,4 @@
-import { createSessionToken } from "@/lib/admin-auth";
+import { createSessionToken, isValidSession } from "@/lib/admin-auth";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
@@ -30,7 +30,7 @@ export async function GET() {
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_session")?.value;
   
-  return Response.json({ authenticated: !!session });
+  return Response.json({ authenticated: isValidSession(session ?? null) });
 }
 
 export async function DELETE() {

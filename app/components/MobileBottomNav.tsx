@@ -24,6 +24,8 @@ export default function MobileBottomNav() {
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
 
+  if (pathname?.startsWith("/admin")) return null;
+
   return (
     <nav className="mobile-bottom-nav" aria-label="Мобильная навигация">
       {items.map(({ label, href, Icon }) => {

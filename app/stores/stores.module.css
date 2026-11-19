@@ -780,3 +780,221 @@
 .footer{position:relative;padding:34px 5% 20px;display:grid;grid-template-columns:1.5fr 1fr 1fr .8fr;gap:25px;background:#102e20;color:#f6eedc}.footer>div{border-right:1px solid #d4c39a44;padding-left:8px}.footer h3{margin:0 0 10px;font-size:13px}.footer p,.footer>div>a:not(:global(.wordmark)){font-size:12px;color:#eee4d2}.footer>div>a:not(:global(.wordmark)){display:flex;margin:8px 0}.footer>div>p{margin:6px 0}.footerBrand :global(.wordmark){color:#fff;font-size:27px}.footerBrand :global(.wordmark) small{font:italic 12px var(--serif);color:#ded3bf;letter-spacing:0}.footerBrand svg{color:#f6eedc}.footer>div>a svg{width:14px;margin-left:6px}.copyright{grid-column:1/-1;margin:10px 0 0;padding-top:18px;border-top:1px solid #c6a87977;font-size:11px!important}
 @media(max-width:850px){.siteHeader{padding-inline:4%!important}.siteHeader :global(nav){gap:13px;font-size:11px}.hero{height:570px;min-height:0;background-position:right center}.heroCopy{padding-top:135px}.heroCopy h1{font-size:70px}.mapPins{left:47%;width:45%}.storesSection{padding-inline:3%}.storeText{padding:12px}.storeText h3{font-size:17px}.storeText p{font-size:12px}.storeCard{min-height:132px}.footer{gap:14px;padding-inline:3%}}
 @media(max-width:600px){.siteHeader{position:relative!important;height:66px!important;background:#f8efdf!important;padding-inline:5%!important}.siteHeader :global(.wordmark){font-size:21px}.siteHeader :global(.brand-mark){width:32px}.siteHeader :global(nav){display:none}.hero{height:690px;min-height:0;background-size:auto 58%;background-position:67% 100%;background-color:#f8efdf}.hero:before{background:linear-gradient(180deg,#f8efdf 0%,#f8efdf 42%,rgba(248,239,223,.94) 55%,rgba(248,239,223,.05) 84%)}.heroCopy{padding:48px 6% 0}.eyebrow{font-size:10px;margin-bottom:13px}.heroCopy h1{font-size:clamp(55px,15vw,76px);margin-bottom:9px}.heroCopy h2{font-size:20px;margin-bottom:10px}.heroCopy>p:not(.eyebrow){font:14px/1.45 var(--sans)}.desktopBreak{display:none}.heroButton{margin-top:15px;padding:12px 19px}.mapPins{left:18%;top:64%;width:70%;height:28%}.mapPins span{width:32px;height:37px;padding-top:6px}.mapPins svg{width:15px}.storesSection{padding:14px 5% 24px}.sectionTitle{gap:9px;margin-bottom:16px}.sectionTitle>span{width:24px}.sectionTitle>h2{font-size:25px}.sectionTitle:before{transform:translateY(-23px)}.storesGrid{grid-template-columns:1fr;gap:10px}.storeCard,.wideCard{grid-column:auto;min-height:125px;border-radius:19px}.storeText{padding:10px 11px}.storeText h3{font-size:16px;gap:6px;margin-bottom:8px}.storeText h3 svg{width:19px}.storeText p{font-size:10px;gap:6px;margin:6px 0}.storeText p svg{width:13px}.storeCard img{width:36%;height:calc(100% - 10px);margin-right:5px;border-radius:15px}.wideCard img{width:36%}.routeLink{display:flex;align-items:center;gap:5px;font-size:10px;margin-top:7px;color:#173c2b}.routeLink svg{width:13px;height:13px}.bookBanner{height:82px;margin:0 4% 20px;border-radius:17px;background-size:auto 100%;padding-left:19%}.bookBanner:before{background:linear-gradient(90deg,#102e2066,#102e20 42%,#102e20 82%,#102e2066)}.bookBanner span{font-size:16px;text-align:center}.footer{grid-template-columns:1fr 1fr;padding:24px 6% 20px;gap:16px 10px}.footerBrand{grid-column:1/-1;border:0!important}.footerBrand :global(.wordmark){font-size:22px}.footerBrand :global(.wordmark) svg{width:36px}.footer>div{border-right:0;padding-left:0}.footer h3{font-size:11px}.footer p,.footer>div>a:not(:global(.wordmark)){font-size:10px}.copyright{font-size:9px!important}}
+
+/* Use the map crop as its own wide layer instead of shrinking the portrait composite into a thin strip. */
+@media(min-width:601px){
+  .hero:after{content:"";position:absolute;z-index:1;right:3%;top:17%;width:52%;height:72%;background:url('/images/stores-map.webp') center/100% 100% no-repeat;filter:drop-shadow(0 8px 12px #42351b22)}
+  .mapPins{left:48%;top:28%;width:43%;height:55%;z-index:2}
+  .mapPins span:nth-child(1){left:17%;top:18%}.mapPins span:nth-child(2){left:40%;top:28%}.mapPins span:nth-child(3){left:55%;top:34%}.mapPins span:nth-child(4){left:31%;top:55%}.mapPins span:nth-child(5){left:75%;top:72%}
+}
+@media(max-width:600px){.hero:after{display:none}}
+
+/* The reference crop already has the five correctly placed store markers. */
+@media(min-width:601px){
+  .hero:after{right:2%;top:18%;width:55%;height:70%;background-image:url('/images/stores-map-reference.webp');background-size:100% 100%;background-position:center;background-repeat:no-repeat;filter:none;mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 100%)}
+  .mapPins{display:none}
+}
+@media(max-width:600px){
+  .hero{background-image:none}
+  .hero:after{display:block;right:4%;top:60%;width:92%;height:35%;background:url('/images/stores-map-reference.webp') center/100% 100% no-repeat;mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 100%)}
+  .mapPins{display:none}
+}
+
+/* Blend the map into the hero instead of showing it as a hard-edged rectangle. */
+@media(min-width:601px){
+  .hero{background-image:linear-gradient(90deg,#f8efdf 0%,#f8efdf 32%,rgba(248,239,223,.94) 45%,rgba(248,239,223,.15) 69%,#f8efdf00 100%)}
+  .hero:after{right:4%;top:16%;width:51%;height:68%;mask-image:radial-gradient(ellipse at 53% 50%,#000 52%,rgba(0,0,0,.92) 67%,transparent 100%)}
+}
+@media(max-width:600px){
+  .hero:after{right:2%;top:60%;width:96%;height:34%;mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 90%,transparent 100%)}
+}
+
+/* Phone layout follows the supplied store-page reference and keeps navigation below. */
+@media(max-width:600px){
+  .siteHeader{height:66px!important;min-height:66px!important;padding:10px 7%!important;background:rgba(248,239,223,.88)!important}
+  .siteHeader :global(.header-tools){display:none}
+  .hero{height:clamp(630px,172vw,710px);background-size:100% auto;background-position:center bottom}
+  .hero:before{background:linear-gradient(180deg,#f8efdf 0%,rgba(248,239,223,.99) 34%,rgba(248,239,223,.92) 48%,rgba(248,239,223,.3) 69%,rgba(248,239,223,0) 88%)}
+  .heroCopy{padding:54px 7% 0;max-width:420px}
+  .heroCopy h1{font-size:clamp(58px,15vw,74px);line-height:.9}
+  .heroCopy h2{max-width:270px;font-size:21px;line-height:1.15}
+  .heroCopy>p:not(.eyebrow){display:none}
+  .heroButton{margin-top:16px}
+  .storesSection{padding:18px 6% 26px}
+  .sectionTitle{gap:10px;margin-bottom:18px}
+  .sectionTitle>span{width:clamp(18px,7vw,34px)}
+  .sectionTitle>h2{font-size:clamp(22px,6.3vw,27px);white-space:nowrap}
+  .storesGrid{gap:10px}
+  .storeCard,.wideCard{min-height:142px;border-radius:19px}
+  .storeText{padding:12px 10px 12px 13px}
+  .storeText h3{font-size:clamp(15px,4.2vw,18px);line-height:1.15;gap:7px;margin-bottom:9px;white-space:nowrap}
+  .storeText h3 svg{width:20px;height:20px}
+  .storeText p{font-size:clamp(11px,3.25vw,13px);line-height:1.25;gap:7px;margin:6px 0;white-space:nowrap}
+  .storeText p svg{width:14px;height:14px}
+  .storeCard img,.wideCard img{width:43%;height:calc(100% - 10px);margin-right:5px;border-radius:15px}
+  .routeLink{display:none}
+  .bookBanner{height:88px;margin:0 4% 18px;padding:0 8% 0 23%;background-size:auto 100%}
+  .bookBanner span{font-size:clamp(16px,4.7vw,20px);line-height:1.2}
+  .footer{grid-template-columns:1fr 1fr;padding:26px 7% 20px;gap:16px 12px}
+  .footerBrand{grid-column:1/-1}
+  .footerBrand :global(.wordmark){font-size:24px}
+  .footerBrand :global(.wordmark) small{display:block}
+  .footer>div:nth-child(2),.footer>div:nth-child(3){display:none}
+  .footer>div:nth-child(4){grid-column:1/-1}
+  .copyright{grid-column:1/-1;margin-top:4px;padding-top:15px;font-size:10px!important}
+}
+
+/* Final store hero: one supplied illustration already includes the map and all five pins. */
+@media(min-width:601px){
+  .hero{background:#f8efdf url('/images/stores-background.webp') center/cover no-repeat}
+  .hero:before{background:linear-gradient(90deg,rgba(248,239,223,.98) 0%,rgba(248,239,223,.92) 27%,rgba(248,239,223,.52) 43%,rgba(248,239,223,0) 61%)}
+  .hero:after,.mapPins{display:none!important}
+}
+@media(max-width:600px){
+  .hero{background:#f8efdf url('/images/stores-background.webp') center bottom/100% auto no-repeat}
+  .hero:before{background:linear-gradient(180deg,#f8efdf 0%,rgba(248,239,223,.98) 39%,rgba(248,239,223,.58) 58%,rgba(248,239,223,0) 83%)}
+  .hero:after,.mapPins{display:none!important}
+}
+
+/* Portrait illustration supplied for the phone layout: one continuous page backdrop. */
+@media(max-width:600px){
+  .storesPage{background-color:#f8efdf;background-image:url('/images/stores-mobile-background.webp');background-repeat:no-repeat;background-position:center 66px;background-size:100% auto}
+  .hero{height:520px;min-height:0;background:transparent!important}
+  .hero:before{display:none}
+  .hero:after,.mapPins{display:none!important}
+  .heroCopy{padding-top:42px}
+  .storesSection{background:transparent;padding-top:7px}
+  .storeCard{background:rgba(255,247,231,.91);backdrop-filter:blur(3px)}
+  .wideCard{background:rgba(255,247,231,.91)}
+  .bookBanner{margin-top:12px}
+}
+
+/* Phone composition tuned to the supplied tall reference. */
+.mobileMenu{display:none}
+@media(max-width:600px){
+  .siteHeader{display:flex!important;align-items:center;justify-content:space-between}
+  .siteHeader :global(.header-tools){display:none}
+  .mobileMenu{display:block;position:relative;z-index:8;margin-left:auto}
+  .mobileMenu summary{width:48px;height:48px;display:grid;place-items:center;list-style:none;border-radius:50%;background:#123b2a;color:#fff;cursor:pointer}
+  .mobileMenu summary::-webkit-details-marker{display:none}
+  .mobileMenu nav{position:absolute;right:0;top:56px;display:flex;flex-direction:column;gap:0;min-width:190px;padding:8px;border:1px solid #d9c29b;border-radius:17px;background:#fff6e6;box-shadow:0 10px 25px #1f332533}
+  .mobileMenu nav a{padding:12px 14px;border-radius:10px;font-size:14px}.mobileMenu nav a[aria-current=page]{background:#e9ddc6;color:#123b2a;font-weight:700}
+  .hero{height:500px!important}.heroCopy{padding-top:30px}.heroCopy h1{font-size:clamp(55px,14vw,70px);line-height:.88}.heroCopy h2{max-width:240px;font-size:clamp(20px,5.3vw,25px);line-height:1.18}.heroDescription{display:none}
+  .storesSection{padding-top:12px}.sectionTitle{margin-bottom:14px}.sectionTitle>h2{font-size:clamp(23px,6.4vw,29px);white-space:nowrap}
+  .storeCard,.wideCard{height:145px;min-height:145px;border-radius:20px}.storeText{padding:11px 9px 10px 12px}.storeText h3{font-size:clamp(15px,4.3vw,18px);white-space:nowrap}.storeText p{font-size:clamp(10px,3.05vw,12px);white-space:nowrap}.storeCard img,.wideCard img{width:49%;height:calc(100% - 10px);margin-right:5px;border-radius:16px;object-fit:cover}.routeLink{position:absolute;z-index:3;right:12px;bottom:calc(50% - 19px);width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:#fff4df;color:#123b2a;box-shadow:0 2px 6px #152d1d55;font-size:0}.routeLink svg{width:21px;height:21px}
+  .bookBanner{height:88px;margin:0 5% 17px;padding:0 5% 0 30%;background-size:auto 100%;background-position:left center}.bookBanner:before{background:linear-gradient(90deg,transparent 0%,#102e20 35%,#102e20 100%)}.bookBanner span{font-size:clamp(15px,4.1vw,19px);max-width:220px}
+  .footer{grid-template-columns:1fr auto;padding:23px 7% 18px;gap:14px}.footerBrand{grid-column:1/-1}.footer>div:nth-child(2),.footer>div:nth-child(3){display:none}.footer>div:nth-child(4){grid-column:2;grid-row:2}.footer>div:nth-child(4) a{width:42px;height:42px;border:1px solid #e2d2b7;border-radius:50%;font-size:0!important;align-items:center;justify-content:center}.copyright{grid-column:1/-1}
+}
+
+/* Tighten the phone layout to the provided vertical reference and remove the burger control. */
+@media(max-width:600px){
+  .siteHeader{height:66px!important;padding-inline:7%!important;background:#fff4e1!important}
+  .siteHeader :global(.header-tools){display:none}
+  .hero{height:355px!important;background:transparent!important}
+  .heroCopy{padding:24px 7% 0}.eyebrow{margin-bottom:10px}.eyebrow i{width:34px}.heroCopy h1{font-size:clamp(53px,14vw,66px);line-height:.86;margin:0 0 10px}.heroCopy h2{max-width:210px;font-size:clamp(19px,5.2vw,23px);line-height:1.16;margin:0 0 14px}.heroDescription{display:none}.heroButton{margin-top:0;padding:12px 18px;font-size:12px}
+  .storesSection{padding:2px 6% 16px}.sectionTitle{gap:8px;margin:0 auto 13px}.sectionTitle>span{width:25px}.sectionTitle>h2{font-size:clamp(21px,5.8vw,25px);white-space:normal}.sectionTitle:before{transform:translateY(-22px)}
+  .storesGrid{gap:9px}.storeCard,.wideCard{height:136px;min-height:136px;border-radius:18px}.storeText{padding:8px 5px 8px 10px}.storeText h3{font-size:clamp(14px,3.9vw,17px);gap:5px;margin-bottom:7px}.storeText h3 svg{width:18px;height:18px}.storeText p{font-size:clamp(9px,2.8vw,11px);gap:5px;margin:5px 0}.storeText p svg{width:12px;height:12px}.storeCard img,.wideCard img{width:50%;height:calc(100% - 8px);margin-right:4px;border-radius:14px}.routeLink{right:10px;width:36px;height:36px;bottom:calc(50% - 18px)}.routeLink svg{width:19px;height:19px}
+  .bookBanner{height:78px;margin:0 5% 15px;padding:0 4% 0 27%}.bookBanner span{font-size:15px;line-height:1.2}.footer{padding-top:19px}
+}
+
+
+/* Preserve artwork proportions and let it continue behind the mobile header. */
+@media(max-width:600px){
+  .storesPage{background-position:center top!important;background-size:100% auto!important}
+  .siteHeader{background:transparent!important}
+}
+
+/* Use the longer phone artwork at its native aspect ratio and compact the five location rows. */
+@media(max-width:600px){
+  .storesPage{background-size:100% auto!important;background-position:center top!important}
+  .hero{height:300px!important}
+  .storesSection{padding-top:4px;padding-bottom:12px}
+  .storeCard,.wideCard{height:100px;min-height:100px}
+  .storeText{padding:6px 4px 6px 9px}
+  .storeText h3{font-size:14px;margin-bottom:4px}
+  .storeText p{font-size:9px;margin:3px 0;line-height:1.15}
+  .storeCard img,.wideCard img{height:calc(100% - 6px);margin-right:3px}
+  .routeLink{right:8px;width:32px;height:32px;bottom:calc(50% - 16px)}
+  .routeLink svg{width:17px;height:17px}
+}
+
+/* Keep the mobile copy on the clear left side of the embedded map. */
+@media(max-width:600px){
+  .hero{isolation:isolate}
+  .hero:before{display:block;content:"";position:absolute;z-index:0;inset:0 auto 0 0;width:76%;background:linear-gradient(90deg,#f8efdf 0%,rgba(248,239,223,.97) 42%,rgba(248,239,223,.82) 66%,rgba(248,239,223,0) 100%);pointer-events:none}
+  .heroCopy{z-index:1;max-width:250px;padding-left:7%;padding-right:0}
+  .heroCopy h1{font-size:clamp(49px,13vw,61px);line-height:.9}
+  .heroCopy h2{max-width:190px;font-size:clamp(18px,4.9vw,21px);line-height:1.14}
+}
+
+/* Move the mobile book banner just below the naturally scaled background artwork. */
+@media(max-width:600px){
+  .bookBanner{margin-top:clamp(0px,calc(299.31vw - 1020px),360px)!important}
+}
+
+/* Remove the thin header seam so the portrait artwork stays continuous from the top. */
+@media(max-width:600px){
+  .siteHeader{border:0!important;box-shadow:none!important;margin:0!important}
+  .hero{margin-top:0!important;border-top:0!important}
+}
+
+/* Remove the pale rectangle behind the mobile hero copy: fade it out on all edges. */
+@media(max-width:600px){
+  .hero:before{inset:-66px auto -40px 0;width:80%;background:linear-gradient(90deg,rgba(248,239,223,.8) 0%,rgba(248,239,223,.55) 55%,rgba(248,239,223,0) 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 78%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 22%,#000 78%,transparent 100%)}
+}
+
+/* Fully soft, edgeless glow behind the hero text instead of a rectangle. */
+@media(max-width:600px){
+  .hero:before{inset:-30px -10% -30px -10%;width:auto;-webkit-mask-image:none;mask-image:none;background:radial-gradient(ellipse 62% 50% at 24% 50%,rgba(248,239,223,.78) 0%,rgba(248,239,223,.5) 45%,rgba(248,239,223,0) 100%)}
+}
+
+/* Keep the dark banner fully below the forest artwork so the two don't blend together. */
+@media(max-width:600px){
+  .bookBanner{margin-top:clamp(96px,calc(299.31vw - 924px),456px)!important;margin-bottom:0!important;border-radius:0 0 22px 22px}
+  .storesPage{background-color:#f8efdf}
+}
+
+@media(max-width:600px){
+  .bookBanner{margin:calc(clamp(96px,calc(299.31vw - 924px),456px) + 16px) 5% 16px!important;border-radius:20px!important;border:1px solid #c6a879;box-shadow:0 4px 12px #1f332533}
+}
+
+@media(max-width:600px){
+  .bookBanner{margin-top:calc(clamp(96px,calc(299.31vw - 924px),456px) + 52px)!important}
+}
+
+@media(max-width:600px){
+  .bookBanner{margin-top:calc(clamp(96px,calc(299.31vw - 924px),456px) + 76px)!important}
+}
+
+/* Toned down: full-width banner right under the artwork, no extra frame. */
+@media(max-width:600px){
+  .bookBanner{margin:calc(clamp(96px,calc(299.31vw - 924px),456px) + 68px) 0 0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+}
+
+/* Final: compact rounded card, small gaps above and below. */
+@media(max-width:600px){
+  .bookBanner{margin:calc(clamp(96px,calc(299.31vw - 924px),456px) + 70px) 5% 12px!important;border-radius:16px!important}
+}
+
+/* Robust mobile bottom: no margin hacks. Page is a column, the section stretches, and any
+   space below the artwork is dark green so it blends into the banner and footer. */
+@media(max-width:600px){
+  .storesPage{display:flex;flex-direction:column;background-color:#102e20!important;min-height:calc(299.31vw + 270px)}
+  .storesSection{flex:1 0 auto}
+  .bookBanner{margin:0!important;border-radius:0!important;border:0!important;box-shadow:none!important;flex:none}
+}
+
+/* Neat mobile bottom: artwork lives in its own wrapper; the banner is a separate card on cream below it. */
+.artWrap{display:contents}
+@media(max-width:600px){
+  .storesPage{display:block;min-height:0;background-color:#f8efdf!important;background-image:none!important}
+  .artWrap{display:flex;flex-direction:column;position:relative;min-height:calc(299.31vw);background:#102e20 url('/images/stores-mobile-background.webp') center top/100% auto no-repeat}
+  .storesSection{flex:1 0 auto}
+  .bookBanner{margin:16px 5%!important;border-radius:18px!important;border:1px solid #c6a879!important;box-shadow:0 3px 8px #1f332522!important}
+}
+
+/* No cream band: the area around the banner stays dark green, banner is a bordered card with even margins. */
+@media(max-width:600px){
+  .storesPage{background-color:#102e20!important}
+  .bookBanner{margin:14px 5%!important;border:1px solid #b99a62!important;box-shadow:none!important;background-color:#163b2a}
+}

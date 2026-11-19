@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, BookOpen, FlaskConical, Gift, GraduationCap, Languages, Mail, MapPin, Mountain, Search, Smile, Phone } from "lucide-react";
+import SiteFooter from "@/app/components/SiteFooter";
+import { ArrowRight, BookOpen, FlaskConical, Gift, GraduationCap, Languages, Mountain, Search, Smile } from "lucide-react";
 
 const categories = [
   { title: "Художественная литература", Icon: BookOpen, href: "/books" },
@@ -13,7 +15,23 @@ const categories = [
   { title: "Иностранная литература", Icon: Languages, href: "/books" },
 ];
 
+const defaultHome = {
+  heroEyebrow: "КНИГИ И КУЛЬТУРНОЕ НАСЛЕДИЕ", heroTitle: "Книги, которые\nсохраняют историю", heroText: "Откройте для себя книги, знания\nи культурное наследие Кыргызстана",
+  countryEyebrow: "ОТКРОЙТЕ СВОЮ СТРАНУ", countryTitle: "Книги о Кыргызстане", countryText: "Узнайте больше о нашей стране —\nо её природе, истории, культуре\nи людях.",
+  aboutEyebrow: "КНИЖНЫЙ МИР БИШКЕКА", aboutTitle: "Раритет — с 1992 года", aboutText: "Сеть книжных магазинов «Раритет» — это любовь к книгам, уважение к знаниям и забота о культуре. Уже более 30 лет мы объединяем читателей в Кыргызстане.",
+  museumEyebrow: "КУЛЬТУРНОЕ НАСЛЕДИЕ", museumTitle: "Музей прикладного искусства\nКыргызстана", museumText: "На Пушкина, 78 расположен музей\nнародного искусства, открытый для всех.",
+  copyright: "Раритет. Все права защищены.",
+};
+
+function Lines({ text }: { text: string }) {
+  return <>{text.split("\n").map((line, i) => <span key={i}>{i > 0 && <br />}{line}</span>)}</>;
+}
+
 export default function Home() {
+  const [home, setHome] = useState(defaultHome);
+  useEffect(() => {
+    fetch("/api/content/home", { cache: "no-store" }).then((r) => r.json()).then((d) => setHome({ ...defaultHome, ...d })).catch(() => {});
+  }, []);
   return <main className="home-page" id="top">
     <div className="first-screen">
     <header className="site-header">
@@ -23,19 +41,19 @@ export default function Home() {
     </header>
 
     <section className="hero" aria-label="Книги Раритет">
-      <div className="hero-copy"><p className="eyebrow">КНИГИ И КУЛЬТУРНОЕ НАСЛЕДИЕ</p><h1>Книги, которые<br />сохраняют историю</h1><p className="hero-description">Откройте для себя книги, знания<br className="desktop-break" /> и культурное наследие Кыргызстана</p><Link className="button button-primary" href="/books">Перейти в каталог <ArrowRight size={18} /></Link></div>
+      <div className="hero-copy"><p className="eyebrow">{home.heroEyebrow}</p><h1><Lines text={home.heroTitle} /></h1><p className="hero-description"><Lines text={home.heroText} /></p><Link className="button button-primary" href="/books">Перейти в каталог <ArrowRight size={18} /></Link></div>
       <div className="hero-controls" aria-hidden="true"><span className="active-dot"/><span/><span/></div>
     </section>
     </div>
 
     <nav className="category-ribbon" aria-label="Категории книг"><div className="category-track">{categories.map(({title, Icon, href}) => <Link href={href} key={title}><Icon size={29} strokeWidth={1.55}/><span>{title}</span></Link>)}{categories.map(({title, Icon, href}) => <Link href={href} key={`repeat-${title}`} aria-hidden="true" tabIndex={-1}><Icon size={29} strokeWidth={1.55}/><span>{title}</span></Link>)}</div></nav>
 
-    <section className="kyrgyzstan-section"><div className="kyrgyzstan-copy"><p className="eyebrow">ОТКРОЙТЕ СВОЮ СТРАНУ</p><h2>Книги о Кыргызстане</h2><p>Узнайте больше о нашей стране —<br />о её природе, истории, культуре<br />и людях.</p><Link className="button button-outline desktop-kyrgyzstan-link" href="/books">Перейти в раздел <ArrowRight size={17}/></Link></div><div className="book-showcase"><img src="/images/books-kyrgyzstan-reference.png" alt="Три книги о природе, истории и культуре Кыргызстана"/></div><Link className="button button-outline mobile-kyrgyzstan-link" href="/books">Перейти в раздел <ArrowRight size={17}/></Link></section>
+    <section className="kyrgyzstan-section"><div className="kyrgyzstan-copy"><p className="eyebrow">{home.countryEyebrow}</p><h2>{home.countryTitle}</h2><p><Lines text={home.countryText} /></p><Link className="button button-outline desktop-kyrgyzstan-link" href="/books">Перейти в раздел <ArrowRight size={17}/></Link></div><div className="book-showcase"><img src="/images/books-kyrgyzstan-reference.png" alt="Три книги о природе, истории и культуре Кыргызстана"/></div><Link className="button button-outline mobile-kyrgyzstan-link" href="/books">Перейти в раздел <ArrowRight size={17}/></Link></section>
 
-    <section className="about-feature"><div className="store-photo" role="img" aria-label="Книжный магазин Раритет"/><div className="about-feature-copy"><p className="eyebrow">КНИЖНЫЙ МИР БИШКЕКА</p><h2>Раритет — с 1992 года</h2><p>Сеть книжных магазинов «Раритет» — это любовь к книгам, уважение к знаниям и забота о культуре. Уже более 30 лет мы объединяем читателей в Кыргызстане.</p><Link className="button button-primary" href="/about">О компании <ArrowRight size={17}/></Link></div></section>
+    <section className="about-feature"><div className="store-photo" role="img" aria-label="Книжный магазин Раритет"/><div className="about-feature-copy"><p className="eyebrow">{home.aboutEyebrow}</p><h2>{home.aboutTitle}</h2><p>{home.aboutText}</p><Link className="button button-primary" href="/about">О компании <ArrowRight size={17}/></Link></div></section>
 
-    <section className="museum-banner"><div><p className="eyebrow">КУЛЬТУРНОЕ НАСЛЕДИЕ</p><h2>Музей прикладного искусства<br/>Кыргызстана</h2><p>На Пушкина, 78 расположен музей<br/>народного искусства, открытый для всех.</p><Link href="/stores">Узнать больше <ArrowRight size={16}/></Link></div></section>
+    <section className="museum-banner"><div><p className="eyebrow">{home.museumEyebrow}</p><h2><Lines text={home.museumTitle} /></h2><p><Lines text={home.museumText} /></p><Link href="/stores">Узнать больше <ArrowRight size={16}/></Link></div></section>
 
-    <footer className="site-footer" id="contacts"><div className="footer-brand"><Link className="wordmark" href="/"><BookOpen className="brand-mark" size={42}/><span>РАРИТЕТ<small>Книги. Культура. Кыргызстан.</small></span></Link></div><div><h3>Наши магазины</h3><p><MapPin size={15}/> Бишкек</p><Link href="/stores">Все адреса <ArrowRight size={14}/></Link></div><div><h3>Контакты</h3><a href="tel:+996312664524"><Phone size={15}/> +996 312 66-45-24</a><a href="mailto:info@raritet.kg"><Mail size={15}/> info@raritet.kg</a></div><div><h3>Мы в соцсетях</h3><a className="social-link" href="https://www.instagram.com/raritet_kg/" target="_blank" rel="noreferrer">Instagram ↗</a></div><p className="copyright">© 1992–2025 Раритет. Все права защищены.</p></footer>
+    <SiteFooter />
   </main>;
 }

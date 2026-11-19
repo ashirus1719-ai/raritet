@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import SiteFooter from "@/app/components/SiteFooter";
 import { useMemo, useState } from "react";
-import { ArrowDownWideNarrow, ArrowLeft, ArrowRight, BookOpen, FlaskConical, Landmark, Mail, MapPin, Mountain, Phone, Search, SlidersHorizontal, Sparkles, Smile } from "lucide-react";
+import { ArrowDownWideNarrow, ArrowLeft, ArrowRight, BookOpen, FlaskConical, Landmark, Mountain, Search, SlidersHorizontal, Sparkles, Smile } from "lucide-react";
 import type { CatalogBook } from "@/lib/books";
 import BookCover from "@/app/components/BookCover";
 import styles from "./BookStore.module.css";
@@ -67,7 +68,7 @@ export default function BookCatalog({ books }: { books: CatalogBook[] }) {
           <div className={styles.bookInfo}><span className={styles.bookCategory}>{book.category}</span><h3>{book.title}</h3><p>{book.author || book.publisher || "Издательство Раритет"}</p><div className={styles.bookPrice}><strong>{new Intl.NumberFormat("ru-RU").format(book.priceKgs)} сом</strong><span>{book.stock === null ? "Наличие уточняйте" : book.stock > 0 ? "В наличии" : "Нет в наличии"}</span></div><span className={styles.detailsLink}>О книге <ArrowRight size={15} /></span></div>
         </Link>)}</div>{pageCount > 1 && <nav className={styles.pagination} aria-label="Страницы каталога"><button className={styles.pageArrow} type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={page === 1} aria-label="Предыдущая страница"><ArrowLeft size={16}/></button>{paginationPages.map((pageNumber, index) => <span className={styles.pageSlot} key={pageNumber}>{index > 0 && pageNumber - paginationPages[index - 1] > 1 && <span className={styles.pageEllipsis}>…</span>}<button type="button" onClick={() => setPage(pageNumber)} aria-current={page === pageNumber ? "page" : undefined} className={page === pageNumber ? styles.currentPage : undefined}>{pageNumber}</button></span>)}<button className={styles.pageArrow} type="button" onClick={() => setPage((current) => Math.min(pageCount, current + 1))} disabled={page === pageCount} aria-label="Следующая страница"><ArrowRight size={16}/></button></nav>}</> : <div className={styles.empty}><span>⌕</span><h3>Такой книги пока нет</h3><p>Попробуйте другое название или выберите все книги.</p><button type="button" onClick={() => { setQuery(""); setCategory("Все книги"); setPage(1); }}>Сбросить фильтры</button></div>}
       </section>
-      <footer className="site-footer" id="contacts"><div className="footer-brand"><Link className="wordmark" href="/"><BookOpen className="brand-mark" size={42}/><span>РАРИТЕТ<small>Книги. Культура. Кыргызстан.</small></span></Link></div><div><h3>Наши магазины</h3><p><MapPin size={15}/> Бишкек</p><Link href="/stores">Все адреса <ArrowRight size={14}/></Link></div><div><h3>Контакты</h3><a href="tel:+996312664524"><Phone size={15}/> +996 312 66-45-24</a><a href="mailto:info@raritet.kg"><Mail size={15}/> info@raritet.kg</a></div><div><h3>Мы в соцсетях</h3><a className="social-link" href="https://www.instagram.com/raritet_kg/" target="_blank" rel="noreferrer">Instagram ↗</a></div><p className="copyright">© 1992–2025 Раритет. Все права защищены.</p></footer>
+      <SiteFooter />
     </main>
   );
 }
