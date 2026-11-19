@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import BookCatalog from "@/app/components/BookCatalog";
 import { getCatalogBooks } from "@/lib/books";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Книги и каталог | Раритет",
   description: "Книги и издания магазина Раритет в Бишкеке.",
