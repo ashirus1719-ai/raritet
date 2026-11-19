@@ -2,10 +2,13 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { BookOpen, BookMarked, Building2, CheckCircle2, ExternalLink, EyeOff, Home, Lock, LogOut, MapPin, PackageX, Pencil, Phone, Plus, Search, Star, Trash2, X } from "lucide-react";
+import { BookOpen, BookMarked, Building2, CheckCircle2, ExternalLink, EyeOff, Home, Lock, LogOut, MapPin, PackageX, Pencil, Phone, Plus, Search, Star, Trash2, X, ShoppingBag, Users } from "lucide-react";
+import { signIn, signOut } from "next-auth/react";
 import BookCover from "../components/BookCover";
 import ContentEditor from "./ContentEditor";
 import ImageUpload from "./ImageUpload";
+import AdminOrdersPanel from "./AdminOrdersPanel";
+import AdminUsersPanel from "./AdminUsersPanel";
 import s from "./admin.module.css";
 
 type Book = {
@@ -31,7 +34,7 @@ type Book = {
   sortOrder: number;
 };
 
-type Tab = "books" | "home" | "about" | "stores" | "contacts";
+type Tab = "books" | "home" | "about" | "stores" | "contacts" | "orders" | "users";
 
 const TONES: [string, string][] = [["forest", "Лесной зелёный"], ["terracotta", "Терракота"], ["indigo", "Индиго"], ["plum", "Слива"], ["ochre", "Охра"], ["sage", "Шалфей"]];
 const empty: Partial<Book> = { slug: "", title: "", author: "", description: "", publisher: "", category: "Без категории", priceKgs: 0, coverTone: "forest", isFeatured: false, isPublished: true, sortOrder: 100 };
@@ -42,6 +45,8 @@ const NAV: { key: Tab; label: string; Icon: React.ComponentType; title: string; 
   { key: "about", label: "О компании", Icon: Building2, title: "О компании", subtitle: "Описание и показатели — например «25+ лет с вами»" },
   { key: "stores", label: "Магазины", Icon: MapPin, title: "Магазины", subtitle: "Адреса, часы работы, телефоны и фото заведений" },
   { key: "contacts", label: "Контакты", Icon: Phone, title: "Контакты", subtitle: "Телефон, почта и соцсети в футере сайта" },
+  { key: "orders", label: "Заказы", Icon: ShoppingBag, title: "Оплаченные заказы", subtitle: "Новые оплаты появляются здесь автоматически" },
+  { key: "users", label: "Пользователи", Icon: Users, title: "Пользователи", subtitle: "Поиск пользователей и управление правами администраторов" },
 ];
 
 const slugify = (t: string) => {
@@ -51,6 +56,7 @@ const slugify = (t: string) => {
 
 export default function AdminPage() {
   const [auth, setAuth] = useState<boolean | null>(null);
+  const [googleConfigured, setGoogleConfigured] = useState(false);
   const [books, setBooks] = useState<Book[]>([]);
   const [editing, setEditing] = useState<Partial<Book> | null>(null);
   const [query, setQuery] = useState("");
@@ -84,7 +90,7 @@ export default function AdminPage() {
   useEffect(() => {
     fetch("/api/admin/session", { cache: "no-store" })
       .then((r) => r.json())
-      .then((d) => (d.authenticated ? load() : setAuth(false)))
+      .then((d) => { setGoogleConfigured(Boolean(d.googleConfigured)); if (d.authenticated) void load(); else setAuth(false); })
       .catch(() => setAuth(false));
   }, [load]);
 
@@ -114,10 +120,7 @@ export default function AdminPage() {
     load();
   };
 
-  const logout = async () => {
-    await fetch("/api/admin/session", { method: "DELETE" });
-    setAuth(false);
-  };
+  const logout = async () => { await signOut({ redirectTo: "/" }); };
 
   const set = (k: keyof Book, v: unknown) => setEditing((p) => ({ ...p, [k]: v }));
   const field = (k: keyof Book, label: string, type = "text", placeholder?: string) => (
@@ -133,8 +136,11 @@ export default function AdminPage() {
         <div className={s.lockCard}>
           <Lock />
           <h1>Админка «Раритет»</h1>
-          <p>Нет доступа. Откройте любую страницу сайта и нажмите <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd>, чтобы ввести пароль.</p>
-          <Link href="/" className={s.btn}>На главную</Link>
+          <h2>Вход для команды</h2>
+          <p>Войдите через Google. Доступ к панели управления есть только у пользователей с правами администратора.</p>
+          {!googleConfigured && <p className={s.errorText}>Вход через Google пока не настроен. Добавьте OAuth ключи в переменные окружения проекта.</p>}
+          <button className={s.btn} disabled={!googleConfigured} onClick={() => void signIn("google", { redirectTo: "/admin" })}>Продолжить с Google</button>
+          <Link href="/" className={s.loginHome}>На главную</Link>
         </div>
       </main>
     );
@@ -175,7 +181,9 @@ export default function AdminPage() {
           {tab === "books" && <button className={s.btn} onClick={() => setEditing({ ...empty })}><Plus />Добавить книгу</button>}
         </header>
 
-        {tab !== "books" && <ContentEditor key={tab} section={tab} notify={notify} />}
+        {["home", "about", "stores", "contacts"].includes(tab) && <ContentEditor key={tab} section={tab as "home" | "about" | "stores" | "contacts"} notify={notify} />}
+        {tab === "orders" && <AdminOrdersPanel />}
+        {tab === "users" && <AdminUsersPanel />}
 
         {tab === "books" && <>
           <div className={s.stats}>

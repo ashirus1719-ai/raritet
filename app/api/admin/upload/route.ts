@@ -1,12 +1,10 @@
 import { createHash } from "node:crypto";
-import { cookies } from "next/headers";
-import { isValidSession } from "@/lib/admin-auth";
+import { isAdmin } from "@/lib/admin-auth";
 
 const MAX_BYTES = 4 * 1024 * 1024; // лимит тела запроса на Vercel ~4.5 МБ
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  if (!isValidSession(cookieStore.get("admin_session")?.value ?? null)) {
+  if (!(await isAdmin())) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { clearCatalogBooksCache } from "@/lib/books";
-import { isValidSession } from "@/lib/admin-auth";
-import { cookies } from "next/headers";
+import { isAdmin } from "@/lib/admin-auth";
 
 type BookRow = { id: bigint };
 const ser = <T extends BookRow>(b: T) => ({ ...b, id: b.id.toString() });
@@ -9,10 +8,7 @@ const int = (v: unknown) => (v === "" || v === null || v === undefined ? null : 
 const str = (v: unknown) => (v === "" || v === null || v === undefined ? null : String(v));
 
 export async function GET() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_session")?.value || null;
-  
-  if (!isValidSession(session)) {
+  if (!(await isAdmin())) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -31,10 +27,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_session")?.value || null;
-  
-  if (!isValidSession(session)) {
+  if (!(await isAdmin())) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -75,10 +68,7 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_session")?.value || null;
-  
-  if (!isValidSession(session)) {
+  if (!(await isAdmin())) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -109,10 +99,7 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("admin_session")?.value || null;
-  
-  if (!isValidSession(session)) {
+  if (!(await isAdmin())) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 

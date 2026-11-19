@@ -259,8 +259,37 @@ textarea.input { resize: vertical; min-height: 84px; line-height: 1.5; }
 .lockCard { width: min(420px, 100%); padding: 34px 30px; border-radius: 26px; text-align: center; background: var(--paper); border: 1px solid var(--gold); box-shadow: 0 30px 60px #0006; color: var(--ink); }
 .lockCard svg { width: 44px; height: 44px; color: var(--forest); }
 .lockCard h1 { margin: 12px 0 8px; font: 600 30px var(--serif); }
+.lockCard h2 { margin: 8px 0; font: 600 26px var(--serif); }
 .lockCard p { margin: 0 0 20px; color: var(--muted); line-height: 1.5; }
 .lockCard kbd { padding: 2px 7px; border-radius: 6px; border: 1px solid var(--line); background: #fff; font: 600 12px var(--sans); }
+.lockCard .btn { width: 100%; }
+.loginHome { display: inline-block; margin-top: 16px; color: #6b6250; font-size: 14px; }
+.errorText { margin: 0; padding: 11px 13px; border: 1px solid #e6c2b8; border-radius: 12px; background: #fff3ef; color: #8b2c22; font-size: 13px; line-height: 1.5; }
+.dataCard { display: grid; gap: 14px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(160deg, var(--paper), var(--paper-2)); }
+.dataCardHead { display: flex; justify-content: space-between; align-items: start; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.dataCardHead strong, .dataCardHead small { display: block; }
+.dataCardHead strong { font: 600 18px var(--serif); }
+.dataCardHead small, .dataGrid small { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+.dataCardHead > b { color: var(--forest); white-space: nowrap; }
+.dataGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; font-size: 14px; overflow-wrap: anywhere; }
+.dataGrid a { color: var(--forest); }
+.dataItems { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.dataItems li { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+.dataItems li b { white-space: nowrap; }
+.dataNote { margin: 0; padding: 10px 12px; border-radius: 10px; background: #f3e7d0; color: var(--muted); font-size: 13px; }
+.userSearch { flex-basis: 100%; max-width: 100%; }
+.userList { display: grid; gap: 10px; }
+.userCard { display: flex; align-items: center; gap: 14px; padding: 13px 15px; border: 1px solid var(--line); border-radius: 14px; background: #fffdf8; }
+.userAvatar { display: grid; place-items: center; width: 42px; height: 42px; flex: none; overflow: hidden; border-radius: 50%; background: #e9ddc6; color: var(--forest); }
+.userAvatar svg, .userAvatar img { width: 100%; height: 100%; }
+.userAvatar img { object-fit: cover; }
+.userInfo { display: grid; min-width: 0; gap: 3px; }
+.userInfo strong, .userInfo span, .userInfo small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.userInfo span { color: var(--muted); font-size: 13px; }
+.userInfo small { color: #928874; font-size: 11px; }
+.roleBadge { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; padding: 6px 10px; border-radius: 999px; background: #eee6d8; color: #71654e; white-space: nowrap; font-size: 12px; }
+.roleBadge svg { width: 14px; height: 14px; }
+.roleAdmin { background: #dcebd5; color: #1f5a37; }
 .spinner { width: 38px; height: 38px; border-radius: 50%; border: 3px solid #c6a87944; border-top-color: var(--gold-2); animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -282,6 +311,14 @@ textarea.input { resize: vertical; min-height: 84px; line-height: 1.5; }
   .grid2, .grid3 { grid-template-columns: 1fr; }
   .statRow { grid-template-columns: 1fr 1fr; }
   .bookGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .userCard { flex-wrap: wrap; }
+  .userInfo { flex: 1 1 calc(100% - 60px); }
+  .roleBadge { margin-left: 0; }
+  .userCard > button { margin-left: auto; padding: 9px 12px; font-size: 12px; }
+  .dataCard { padding: 14px; }
+  .dataItems li { font-size: 12px; }
 }
 @media (max-width: 480px) {
   .navItem span { display: none; }
