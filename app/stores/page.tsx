@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRight, BookOpen, Clock3, MapPin, Phone, Search } from "lucide-react";
 import styles from "./stores.module.css";
 import { getContent } from "@/lib/site-content";
+import CartLink from "@/app/components/CartLink";
 
 export const metadata: Metadata = {
   title: "Магазины в Бишкеке | Раритет",
@@ -21,7 +22,7 @@ export default async function StoresPage() {
       <header className={`site-header ${styles.siteHeader}`}>
         <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={39}/><span>РАРИТЕТ</span></Link>
         <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores" aria-current="page">Магазины</Link><Link href="/#contacts">Контакты</Link></nav>
-        <div className="header-tools"><Link href="/books" aria-label="Поиск"><Search size={21}/></Link></div>
+        <div className="header-tools"><Link href="/books" aria-label="Поиск"><Search size={21}/></Link><CartLink /></div>
       </header>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>

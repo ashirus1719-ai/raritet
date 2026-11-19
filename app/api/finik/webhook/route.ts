@@ -56,9 +56,22 @@ export async function POST(request: NextRequest) {
     }
     if (order.paymentStatus === "paid") return NextResponse.json({ success: true, duplicate: true });
 
-    await prisma.raritetBookOrder.updateMany({
-      where: { id: order.id, paymentId, paymentStatus: "pending" },
-      data: { paymentStatus: "paid", status: "paid" },
+    // Mark the order paid and write off stock atomically. The status guard makes this run once even if Finik retries the webhook.
+    await prisma.$transaction(async (tx) => {
+      const marked = await tx.raritetBookOrder.updateMany({
+        where: { id: order.id, paymentId, paymentStatus: "pending" },
+        data: { paymentStatus: "paid", status: "paid" },
+      });
+      if (marked.count !== 1) return;
+      const items = await tx.raritetBookOrderItem.findMany({ where: { orderId: order.id, bookId: { not: null } }, select: { bookId: true, quantity: true } });
+      for (const item of items) {
+        const bookId = item.bookId!;
+        const written = await tx.raritetBook.updateMany({ where: { id: bookId, stock: { gte: item.quantity } }, data: { stock: { decrement: item.quantity } } });
+        if (written.count === 1) continue;
+        // Someone else bought the last copies while this order was awaiting payment: the order stays paid, stock goes to zero.
+        const zeroed = await tx.raritetBook.updateMany({ where: { id: bookId, stock: { not: null } }, data: { stock: 0 } });
+        if (zeroed.count) console.warn("[RARITET_FINIK_WEBHOOK] Paid order exceeds stock", { orderId: order.id.toString(), bookId: bookId.toString(), quantity: item.quantity });
+      }
     });
     return NextResponse.json({ success: true });
   } catch (error) {

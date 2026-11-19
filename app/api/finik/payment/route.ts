@@ -19,6 +19,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "paymentUnavailable" }, { status: 409 });
     }
     if (order.currency !== "KGS") return NextResponse.json({ error: "invalidCurrency" }, { status: 400 });
+    // Stock is only written off after payment, so re-check it before sending the buyer to pay.
+    const items = await prisma.raritetBookOrderItem.findMany({ where: { orderId: order.id }, select: { titleSnapshot: true, quantity: true, book: { select: { stock: true, isPublished: true } } } });
+    const unavailable = items.filter((item) => !item.book || !item.book.isPublished || (item.book.stock !== null && item.book.stock < item.quantity));
+    if (unavailable.length) return NextResponse.json({ error: "outOfStock", titles: unavailable.map((item) => item.titleSnapshot) }, { status: 409 });
     if (order.paymentUrl) return NextResponse.json({ paymentUrl: order.paymentUrl });
 
     let paymentId = order.paymentId;

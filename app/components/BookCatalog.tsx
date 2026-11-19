@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import SiteFooter from "@/app/components/SiteFooter";
 import { useMemo, useState } from "react";
 import { ArrowDownWideNarrow, ArrowLeft, ArrowRight, BookOpen, FlaskConical, Landmark, Mountain, Search, SlidersHorizontal, Sparkles, Smile } from "lucide-react";
 import type { CatalogBook } from "@/lib/books";
-import BookCover from "@/app/components/BookCover";
+import BookCard from "@/app/components/BookCard";
+import StoreHeader from "@/app/components/StoreHeader";
 import styles from "./BookStore.module.css";
 
 const PAGE_SIZE = 12;
@@ -43,11 +43,7 @@ export default function BookCatalog({ books }: { books: CatalogBook[] }) {
 
   return (
     <main className={styles.storePage}>
-      <header className={`site-header ${styles.catalogHeader}`}>
-        <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={37} strokeWidth={1.5} /><span>РАРИТЕТ<small>КНИГИ · КУЛЬТУРА · КЫРГЫЗСТАН</small></span></Link>
-        <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books" aria-current="page">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores">Магазины</Link><a href="#contacts">Контакты</a></nav>
-        <div className="header-tools"><a href="#catalog-search" aria-label="Поиск по каталогу"><Search size={21} /></a></div>
-      </header>
+      <StoreHeader current="books" />
       <section className={styles.catalogHero}>
         <div className={styles.heroCopy}>
           <p className={styles.kicker}>КНИГИ И КУЛЬТУРА КЫРГЫЗСТАНА</p>
@@ -63,10 +59,7 @@ export default function BookCatalog({ books }: { books: CatalogBook[] }) {
           <label className={styles.search} id="catalog-search"><Search size={17} /><input value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); }} placeholder="Название, автор или тема" aria-label="Поиск по книгам" />{query && <button type="button" onClick={() => { setQuery(""); setPage(1); }} aria-label="Очистить поиск">×</button>}</label>
           <label className={styles.sort}><ArrowDownWideNarrow size={16} /><select value={sort} onChange={(event) => { setSort(event.target.value); setPage(1); }} aria-label="Сортировка"><option value="featured">Рекомендуем</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option><option value="title">По названию</option></select></label>
         </div></div>
-        {filtered.length ? <><div className={styles.bookGrid}>{visibleBooks.map((book, index) => <Link key={book.slug} href={`/books/${book.slug}`} className={styles.bookCard}>
-          <div className={styles.bookCoverWrap}><BookCover title={book.title} author={book.author} tone={book.coverTone} image={book.coverUrl} /><span className={styles.cardNumber}>{String((page - 1) * PAGE_SIZE + index + 1).padStart(2, "0")}</span>{book.isFeatured && <span className={styles.featured}>ВЫБОР РЕДАКЦИИ</span>}</div>
-          <div className={styles.bookInfo}><span className={styles.bookCategory}>{book.category}</span><h3>{book.title}</h3><p>{book.author || book.publisher || "Издательство Раритет"}</p><div className={styles.bookPrice}><strong>{new Intl.NumberFormat("ru-RU").format(book.priceKgs)} сом</strong><span>{book.stock === null ? "Наличие уточняйте" : book.stock > 0 ? "В наличии" : "Нет в наличии"}</span></div><span className={styles.detailsLink}>О книге <ArrowRight size={15} /></span></div>
-        </Link>)}</div>{pageCount > 1 && <nav className={styles.pagination} aria-label="Страницы каталога"><button className={styles.pageArrow} type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={page === 1} aria-label="Предыдущая страница"><ArrowLeft size={16}/></button>{paginationPages.map((pageNumber, index) => <span className={styles.pageSlot} key={pageNumber}>{index > 0 && pageNumber - paginationPages[index - 1] > 1 && <span className={styles.pageEllipsis}>…</span>}<button type="button" onClick={() => setPage(pageNumber)} aria-current={page === pageNumber ? "page" : undefined} className={page === pageNumber ? styles.currentPage : undefined}>{pageNumber}</button></span>)}<button className={styles.pageArrow} type="button" onClick={() => setPage((current) => Math.min(pageCount, current + 1))} disabled={page === pageCount} aria-label="Следующая страница"><ArrowRight size={16}/></button></nav>}</> : <div className={styles.empty}><span>⌕</span><h3>Такой книги пока нет</h3><p>Попробуйте другое название или выберите все книги.</p><button type="button" onClick={() => { setQuery(""); setCategory("Все книги"); setPage(1); }}>Сбросить фильтры</button></div>}
+        {filtered.length ? <><div className={styles.bookGrid}>{visibleBooks.map((book, index) => <BookCard key={book.slug} book={book} number={(page - 1) * PAGE_SIZE + index + 1} />)}</div>{pageCount > 1 && <nav className={styles.pagination} aria-label="Страницы каталога"><button className={styles.pageArrow} type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={page === 1} aria-label="Предыдущая страница"><ArrowLeft size={16}/></button>{paginationPages.map((pageNumber, index) => <span className={styles.pageSlot} key={pageNumber}>{index > 0 && pageNumber - paginationPages[index - 1] > 1 && <span className={styles.pageEllipsis}>…</span>}<button type="button" onClick={() => setPage(pageNumber)} aria-current={page === pageNumber ? "page" : undefined} className={page === pageNumber ? styles.currentPage : undefined}>{pageNumber}</button></span>)}<button className={styles.pageArrow} type="button" onClick={() => setPage((current) => Math.min(pageCount, current + 1))} disabled={page === pageCount} aria-label="Следующая страница"><ArrowRight size={16}/></button></nav>}</> : <div className={styles.empty}><span>⌕</span><h3>Такой книги пока нет</h3><p>Попробуйте другое название или выберите все книги.</p><button type="button" onClick={() => { setQuery(""); setCategory("Все книги"); setPage(1); }}>Сбросить фильтры</button></div>}
       </section>
       <SiteFooter />
     </main>

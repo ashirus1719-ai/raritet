@@ -47,6 +47,9 @@ export default function BookOrderPanel({ initialOrder }: { initialOrder: OrderVi
         setOrder((current) => ({ ...current, paymentStatus: "paid", status: "paid" }));
       } else if (response.ok && typeof result.paymentUrl === "string") {
         window.location.assign(result.paymentUrl);
+      } else if (result.error === "outOfStock") {
+        const titles = Array.isArray(result.titles) ? result.titles.map((title: string) => `«${title}»`).join(", ") : "";
+        setError(`Пока вы оформляли заказ, ${titles || "часть книг"} раскупили. Свяжитесь с магазином или оформите заказ заново.`);
       } else {
         setError("Не удалось открыть оплату. Обновите страницу и попробуйте ещё раз.");
       }
