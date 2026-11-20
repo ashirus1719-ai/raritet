@@ -38,7 +38,7 @@ export default function Home() {
     <header className="site-header">
       <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={37} strokeWidth={1.5} /><span>РАРИТЕТ<small>КНИГИ · КУЛЬТУРА · КЫРГЫЗСТАН</small></span></Link>
       <nav aria-label="Основная навигация"><Link href="/" aria-current="page">Главная</Link><Link href="/books">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores">Магазины</Link><a href="#contacts">Контакты</a></nav>
-      <div className="header-tools"><Link href="/books" aria-label="Поиск книг"><Search size={21} /></Link><CartLink /><Link className="header-sign-in" href="/admin">Войти</Link></div>
+      <div className="header-tools"><Link href="/books" aria-label="Поиск книг"><Search size={21} /></Link><CartLink /><Link className="header-sign-in" href="/login">Войти</Link></div>
     </header>
 
     <section className="hero" aria-label="Книги Раритет">

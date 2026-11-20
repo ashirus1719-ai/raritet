@@ -1,0 +1,96 @@
+.page {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background: radial-gradient(ellipse at 50% 0%, #e8ddce 0%, #f7f0e6 58%);
+  color: #14271e;
+}
+
+.card {
+  width: min(100%, 440px);
+  padding: 34px;
+  border: 1px solid #ded5c9;
+  border-radius: 20px;
+  background: #fbf7f0;
+  box-shadow: 0 20px 60px #17221912;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #173f2e;
+  font: 600 24px/1 var(--font-playfair), Georgia, serif;
+}
+
+.eyebrow {
+  margin: 40px 0 10px;
+  color: #68756c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.card h1 {
+  margin: 0;
+  font: 600 clamp(28px, 7vw, 36px)/1.12 var(--font-playfair), Georgia, serif;
+  letter-spacing: -.035em;
+}
+
+.description {
+  margin: 15px 0 24px;
+  color: #58645d;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.googleButton,
+.primaryLink {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: #173f2e;
+  color: #fff;
+  cursor: pointer;
+  font: 600 14px/1 var(--font-inter), Arial, sans-serif;
+  transition: background .2s, transform .2s;
+}
+
+.googleButton:hover,
+.primaryLink:hover {
+  background: #24563e;
+  transform: translateY(-1px);
+}
+
+.notice {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f4e7dc;
+  color: #8a493d;
+  font-size: 14px;
+}
+
+.note {
+  margin: 24px 0 0;
+  color: #68756c;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 22px;
+  color: #173f2e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .card { padding: 28px 22px; }
+}

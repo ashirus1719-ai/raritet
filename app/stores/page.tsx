@@ -22,7 +22,7 @@ export default async function StoresPage() {
       <header className={`site-header ${styles.siteHeader}`}>
         <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={39}/><span>РАРИТЕТ</span></Link>
         <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores" aria-current="page">Магазины</Link><Link href="/#contacts">Контакты</Link></nav>
-        <div className="header-tools"><Link href="/books" aria-label="Поиск"><Search size={21}/></Link><CartLink /><Link className="header-sign-in" href="/admin">Войти</Link></div>
+        <div className="header-tools"><Link href="/books" aria-label="Поиск"><Search size={21}/></Link><CartLink /><Link className="header-sign-in" href="/login">Войти</Link></div>
       </header>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>

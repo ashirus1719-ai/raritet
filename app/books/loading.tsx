@@ -8,7 +8,7 @@ export default function LoadingBooks() {
       <header className={`site-header ${styles.catalogHeader}`}>
         <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={37} strokeWidth={1.5} /><span>РАРИТЕТ<small>КНИГИ · КУЛЬТУРА · КЫРГЫЗСТАН</small></span></Link>
         <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books" aria-current="page">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores">Магазины</Link><a href="#contacts">Контакты</a></nav>
-        <div className="header-tools"><a href="#catalog-search" aria-label="Поиск по каталогу"><Search size={21} /></a><Link className="header-sign-in" href="/admin">Войти</Link></div>
+        <div className="header-tools"><a href="#catalog-search" aria-label="Поиск по каталогу"><Search size={21} /></a><Link className="header-sign-in" href="/login">Войти</Link></div>
       </header>
       <section className={styles.catalogHero}>
         <div className={styles.heroCopy}><p className={styles.kicker}>КНИГИ И КУЛЬТУРА КЫРГЫЗСТАНА</p><h1>Каталог</h1><p>Уникальные книги, которые<br className={styles.desktopBreak} /> сохраняют историю</p><div className={styles.heroOrnament} aria-hidden="true"><span />✦<span /></div></div>
