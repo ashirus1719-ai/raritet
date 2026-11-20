@@ -5,6 +5,7 @@ import { ArrowRight, BookOpen, MapPin, Search, Users } from "lucide-react";
 import styles from "./about.module.css";
 import { getContent } from "@/lib/site-content";
 import CartLink from "@/app/components/CartLink";
+import AccountButton from "@/app/components/AccountButton";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,7 @@ export default async function AboutPage() {
       <header className={`site-header ${styles.header}`}>
         <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={42} strokeWidth={1.5}/><span>РАРИТЕТ</span></Link>
         <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books">Каталог</Link><Link href="/about" aria-current="page">О компании</Link><Link href="/stores">Магазины</Link><Link href="/#contacts">Контакты</Link></nav>
-        <div className="header-tools"><Link href="/books" aria-label="Поиск по каталогу"><Search size={22}/></Link><Link href="/stores" aria-label="Наши магазины"><MapPin size={21}/></Link><CartLink /><Link className="header-sign-in" href="/login">Войти</Link></div>
+        <div className="header-tools"><Link href="/books" aria-label="Поиск по каталогу"><Search size={22}/></Link><Link href="/stores" aria-label="Наши магазины"><MapPin size={21}/></Link><CartLink /><AccountButton /></div>
       </header>
       <section className={styles.hero}>
         <div className={styles.copy}>

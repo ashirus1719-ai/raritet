@@ -94,3 +94,19 @@
 @media (max-width: 480px) {
   .card { padding: 28px 22px; }
 }
+
+.signOutButton {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 10px;
+  border: 1px solid #d9cebe;
+  border-radius: 12px;
+  background: transparent;
+  color: #173f2e;
+  font: 600 14px var(--sans, Arial, sans-serif);
+  cursor: pointer;
+}
+
+.signOutButton:hover {
+  border-color: #173f2e;
+}

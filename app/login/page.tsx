@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import GoogleSignInButton from "./GoogleSignInButton";
 import styles from "./login.module.css";
 
@@ -24,6 +24,9 @@ export default async function LoginPage() {
             <Link className={styles.primaryLink} href={session.user.role === "admin" ? "/admin" : "/"}>
               {session.user.role === "admin" ? "Перейти в админку" : "На главную"}
             </Link>
+            <form action={async () => { "use server"; await signOut({ redirectTo: "/" }); }}>
+              <button type="submit" className={styles.signOutButton}>Выйти из аккаунта</button>
+            </form>
           </>
         ) : (
           <>
