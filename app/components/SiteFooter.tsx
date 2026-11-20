@@ -72,6 +72,8 @@ export default function SiteFooter() {
         <nav className={styles.col} aria-label="Разделы сайта">
           <h3>Разделы</h3>
           {NAV.map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}
+          <Link href="/privacy">Политика конфиденциальности</Link>
+          <Link href="/terms">Условия использования</Link>
         </nav>
 
         <div className={`${styles.col} ${styles.storesCol}`}>

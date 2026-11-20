@@ -41,6 +41,7 @@ export default async function LoginPage() {
         )}
 
         <p className={styles.note}>Права администратора выдаются отдельно через список пользователей в админке.</p>
+        <p className={styles.note}>Продолжая с Google, вы соглашаетесь с <Link href="/privacy">Политикой конфиденциальности</Link> и <Link href="/terms">Условиями использования</Link>.</p>
         <Link className={styles.backLink} href="/">Вернуться на сайт</Link>
       </section>
     </main>
