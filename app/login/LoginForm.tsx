@@ -9,6 +9,7 @@ const ERRORS: Record<string, string> = {
   invalid: "Неверный e-mail или пароль.",
   email_taken: "Этот e-mail уже зарегистрирован. Войдите или продолжите с Google.",
   use_google: "Этот e-mail зарегистрирован через Google — нажмите «Продолжить с Google».",
+  too_many: "Слишком много неудачных попыток. Подождите 15 минут или войдите через Google.",
   invalid_input: "Проверьте данные: имя от 2 символов, корректный e-mail и пароль от 8 символов.",
 };
 
@@ -23,7 +24,7 @@ function GoogleIcon() {
   );
 }
 
-export default function LoginForm({ googleEnabled, initialError }: { googleEnabled: boolean; initialError?: string }) {
+export default function LoginForm({ googleEnabled, initialError, callbackUrl = "/" }: { googleEnabled: boolean; initialError?: string; callbackUrl?: string }) {
   const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [busy, setBusy] = useState(false);
@@ -46,7 +47,7 @@ export default function LoginForm({ googleEnabled, initialError }: { googleEnabl
         setError(ERRORS[result.code ?? ""] ?? ERRORS.invalid);
         return;
       }
-      router.push("/");
+      router.push(callbackUrl);
       router.refresh();
     } catch {
       setError("Не удалось связаться с сайтом. Проверьте интернет и попробуйте ещё раз.");
@@ -72,7 +73,7 @@ export default function LoginForm({ googleEnabled, initialError }: { googleEnabl
 
       {googleEnabled && <>
         <div className={styles.divider}><span>или</span></div>
-        <button className={styles.googleButton} type="button" onClick={() => void signIn("google", { redirectTo: "/" })}>
+        <button className={styles.googleButton} type="button" onClick={() => void signIn("google", { redirectTo: callbackUrl })}>
           <GoogleIcon /> Продолжить с Google
         </button>
       </>}

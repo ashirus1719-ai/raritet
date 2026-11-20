@@ -55,6 +55,16 @@ model Session {
   @@map("raritet_auth_sessions")
 }
 
+// Failed password sign-ins per email (brute-force protection)
+model LoginAttempt {
+  key            String    @id
+  failures       Int       @default(0)
+  firstFailureAt DateTime  @map("first_failure_at") @db.Timestamptz
+  lockedUntil    DateTime? @map("locked_until") @db.Timestamptz
+
+  @@map("raritet_auth_login_attempts")
+}
+
 model VerificationToken {
   identifier String
   token      String

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { BookOpen, BookMarked, Building2, CheckCircle2, ExternalLink, EyeOff, Home, Lock, LogOut, MapPin, PackageX, Pencil, Phone, Plus, Search, Star, Trash2, X, ShoppingBag, Users } from "lucide-react";
-import { signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import BookCover from "../components/BookCover";
 import ContentEditor from "./ContentEditor";
 import ImageUpload from "./ImageUpload";
@@ -56,7 +56,6 @@ const slugify = (t: string) => {
 
 export default function AdminPage() {
   const [auth, setAuth] = useState<boolean | null>(null);
-  const [googleConfigured, setGoogleConfigured] = useState(false);
   const [books, setBooks] = useState<Book[]>([]);
   const [editing, setEditing] = useState<Partial<Book> | null>(null);
   const [query, setQuery] = useState("");
@@ -90,7 +89,7 @@ export default function AdminPage() {
   useEffect(() => {
     fetch("/api/admin/session", { cache: "no-store" })
       .then((r) => r.json())
-      .then((d) => { setGoogleConfigured(Boolean(d.googleConfigured)); if (d.authenticated) void load(); else setAuth(false); })
+      .then((d) => { if (d.authenticated) void load(); else setAuth(false); })
       .catch(() => setAuth(false));
   }, [load]);
 
@@ -137,9 +136,8 @@ export default function AdminPage() {
           <Lock />
           <h1>Админка «Раритет»</h1>
           <h2>Вход для команды</h2>
-          <p>Войдите через Google. Доступ к панели управления есть только у пользователей с правами администратора.</p>
-          {!googleConfigured && <p className={s.errorText}>Вход через Google пока не настроен. Добавьте OAuth ключи в переменные окружения проекта.</p>}
-          <button className={s.btn} disabled={!googleConfigured} onClick={() => void signIn("google", { redirectTo: "/admin" })}>Продолжить с Google</button>
+          <p>Войдите в аккаунт. Доступ к панели управления есть только у пользователей с правами администратора.</p>
+          <Link className={s.btn} href="/login?callbackUrl=/admin">Войти</Link>
           <Link href="/" className={s.loginHome}>На главную</Link>
         </div>
       </main>

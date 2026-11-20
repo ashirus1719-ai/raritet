@@ -3,22 +3,17 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
+import { isOwner } from "@/lib/owner";
+import { checkLoginAllowed, clearLoginFailures, recordLoginFailure } from "@/lib/login-attempts";
 import { hashPassword, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, verifyPassword } from "@/lib/password";
 
 const googleReady = Boolean(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET);
-
-// Tolerates quotes, spaces, semicolons and new lines around the addresses in the env value.
-const bootstrapAdmins = new Set(
-  (process.env.ADMIN_BOOTSTRAP_EMAILS ?? "")
-    .split(/[,;\s]+/)
-    .map((email) => email.replace(/^["']+|["']+$/g, "").trim().toLowerCase())
-    .filter(Boolean),
-);
 
 class InvalidLogin extends CredentialsSignin { code = "invalid"; }
 class EmailTaken extends CredentialsSignin { code = "email_taken"; }
 class UseGoogle extends CredentialsSignin { code = "use_google"; }
 class InvalidInput extends CredentialsSignin { code = "invalid_input"; }
+class TooManyAttempts extends CredentialsSignin { code = "too_many"; }
 
 const text = (value: unknown) => (typeof value === "string" ? value.trim() : "");
 
@@ -33,14 +28,16 @@ async function authorizeWithPassword(input: Partial<Record<string, unknown>>) {
   if (input.mode === "register") {
     if (name.length < 2 || name.length > 100) throw new InvalidInput();
     if (existing) throw new EmailTaken();
-    // Password accounts are never bootstrapped to admin: the address is not verified.
+    // New accounts are always plain users; only the owner can grant admin rights.
     const user = await prisma.user.create({ data: { email, name, passwordHash: await hashPassword(password), role: "user" } });
     return { id: user.id, name: user.name, email: user.email, image: user.image, role: user.role };
   }
 
-  if (!existing) throw new InvalidLogin();
+  if (!(await checkLoginAllowed(email))) throw new TooManyAttempts();
+  if (!existing) { await recordLoginFailure(email); throw new InvalidLogin(); }
   if (!existing.passwordHash) throw new UseGoogle();
-  if (!(await verifyPassword(password, existing.passwordHash))) throw new InvalidLogin();
+  if (!(await verifyPassword(password, existing.passwordHash))) { await recordLoginFailure(email); throw new InvalidLogin(); }
+  await clearLoginFailures(email);
   return { id: existing.id, name: existing.name, email: existing.email, image: existing.image, role: existing.role };
 }
 
@@ -66,13 +63,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (user?.id) token.sub = user.id;
       if (!token.sub) return null;
-      const dbUser = await prisma.user.findUnique({
-        where: { id: token.sub },
-        select: { name: true, email: true, image: true, role: true, accounts: { where: { provider: "google" }, select: { id: true }, take: 1 } },
-      });
+      const dbUser = await prisma.user.findUnique({ where: { id: token.sub }, select: { name: true, email: true, image: true, role: true } });
       if (!dbUser) return null;
       let role = dbUser.role;
-      if (role !== "admin" && dbUser.accounts.length > 0 && dbUser.email && bootstrapAdmins.has(dbUser.email.toLowerCase())) {
+      // The owner is always an administrator, whatever the database says.
+      if (isOwner(token.sub) && role !== "admin") {
         await prisma.user.update({ where: { id: token.sub }, data: { role: "admin" } });
         role = "admin";
       }

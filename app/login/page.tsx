@@ -10,8 +10,10 @@ const OAUTH_ERRORS: Record<string, string> = {
   Configuration: "Вход временно недоступен. Попробуйте позже или войдите по e-mail.",
 };
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
-  const [session, { error }] = await Promise.all([auth(), searchParams]);
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string; callbackUrl?: string }> }) {
+  const [session, { error, callbackUrl: rawCallback }] = await Promise.all([auth(), searchParams]);
+  // Only same-site paths, so the login page cannot be used to redirect visitors elsewhere.
+  const callbackUrl = rawCallback && rawCallback.startsWith("/") && !rawCallback.startsWith("//") && !rawCallback.startsWith("/\\") ? rawCallback : "/";
   const googleConfigured = Boolean(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET);
 
   return (
@@ -39,7 +41,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             <p className={styles.eyebrow}>Личный кабинет</p>
             <h1>Войти или зарегистрироваться</h1>
             <p className={styles.description}>По e-mail и паролю или через Google — как удобнее.</p>
-            <LoginForm googleEnabled={googleConfigured} initialError={error ? OAUTH_ERRORS[error] ?? "Не удалось войти. Попробуйте ещё раз." : undefined} />
+            <LoginForm googleEnabled={googleConfigured} callbackUrl={callbackUrl} initialError={error ? OAUTH_ERRORS[error] ?? "Не удалось войти. Попробуйте ещё раз." : undefined} />
           </>
         )}
 

@@ -1,8 +1,10 @@
 import { getAdminUser } from "@/lib/admin-auth";
+import { isOwner, OWNER_USER_ID } from "@/lib/owner";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(request: Request) {
-  if (!(await getAdminUser())) return Response.json({ error: "Unauthorized" }, { status: 401 });
+  const admin = await getAdminUser();
+  if (!admin) return Response.json({ error: "Unauthorized" }, { status: 401 });
   const q = new URL(request.url).searchParams.get("q")?.trim() ?? "";
   const users = await prisma.user.findMany({
     where: q ? { OR: [{ name: { contains: q, mode: "insensitive" } }, { email: { contains: q, mode: "insensitive" } }] } : {},
@@ -10,32 +12,28 @@ export async function GET(request: Request) {
     take: 100,
     select: { id: true, name: true, email: true, image: true, role: true, createdAt: true },
   });
-  return Response.json({ users }, { headers: { "Cache-Control": "no-store" } });
+  return Response.json({
+    users: users.map((user) => ({ ...user, isOwner: user.id === OWNER_USER_ID })),
+    canManageRoles: isOwner(admin.id),
+  }, { headers: { "Cache-Control": "no-store" } });
 }
 
+/** Only the site owner may grant or revoke admin rights, and the owner's own rights cannot be changed. */
 export async function PATCH(request: Request) {
   const admin = await getAdminUser();
   if (!admin) return Response.json({ error: "Unauthorized" }, { status: 401 });
+  if (!isOwner(admin.id)) return Response.json({ error: "Выдавать и снимать права администратора может только владелец сайта" }, { status: 403 });
   try {
     const body = await request.json();
     if (typeof body.userId !== "string" || !["admin", "user"].includes(body.role)) {
       return Response.json({ error: "Invalid request" }, { status: 400 });
     }
-    if (body.userId === admin.id && body.role !== "admin") {
-      return Response.json({ error: "Нельзя снять права администратора с самого себя" }, { status: 400 });
-    }
-    const target = await prisma.user.findUnique({ where: { id: body.userId }, select: { id: true, role: true } });
+    if (isOwner(body.userId)) return Response.json({ error: "Права владельца изменить нельзя" }, { status: 400 });
+    const target = await prisma.user.findUnique({ where: { id: body.userId }, select: { id: true } });
     if (!target) return Response.json({ error: "Пользователь не найден" }, { status: 404 });
-    const user = await prisma.$transaction(async (tx) => {
-      if (target.role === "admin" && body.role !== "admin") {
-        const adminCount = await tx.user.count({ where: { role: "admin" } });
-        if (adminCount <= 1) throw new Error("LAST_ADMIN");
-      }
-      return tx.user.update({ where: { id: body.userId }, data: { role: body.role }, select: { id: true, name: true, email: true, role: true } });
-    }, { isolationLevel: "Serializable" });
+    const user = await prisma.user.update({ where: { id: body.userId }, data: { role: body.role }, select: { id: true, name: true, email: true, role: true } });
     return Response.json({ user });
-  } catch (error) {
-    if (error instanceof Error && error.message === "LAST_ADMIN") return Response.json({ error: "Нельзя удалить последнего администратора" }, { status: 409 });
+  } catch {
     return Response.json({ error: "Не удалось изменить права пользователя" }, { status: 500 });
   }
 }
