@@ -39,14 +39,14 @@ type Tab = "books" | "home" | "about" | "stores" | "contacts" | "orders" | "user
 const TONES: [string, string][] = [["forest", "Лесной зелёный"], ["terracotta", "Терракота"], ["indigo", "Индиго"], ["plum", "Слива"], ["ochre", "Охра"], ["sage", "Шалфей"]];
 const empty: Partial<Book> = { slug: "", title: "", author: "", description: "", publisher: "", category: "Без категории", priceKgs: 0, coverTone: "forest", isFeatured: false, isPublished: true, sortOrder: 100 };
 
-const NAV: { key: Tab; label: string; Icon: React.ComponentType; title: string; subtitle: string }[] = [
+const NAV: { key: Tab; label: string; short?: string; Icon: React.ComponentType; title: string; subtitle: string }[] = [
   { key: "books", label: "Книги", Icon: BookOpen, title: "Каталог книг", subtitle: "Добавляйте, редактируйте и публикуйте издания" },
   { key: "home", label: "Главная", Icon: Home, title: "Главная страница", subtitle: "Тексты первого экрана и блоков главной" },
-  { key: "about", label: "О компании", Icon: Building2, title: "О компании", subtitle: "Описание и показатели — например «25+ лет с вами»" },
-  { key: "stores", label: "Магазины", Icon: MapPin, title: "Магазины", subtitle: "Адреса, часы работы, телефоны и фото заведений" },
-  { key: "contacts", label: "Контакты", Icon: Phone, title: "Контакты", subtitle: "Телефон, почта и соцсети в футере сайта" },
+  { key: "about", label: "О компании", short: "О нас", Icon: Building2, title: "О компании", subtitle: "Описание и показатели — например «25+ лет с вами»" },
+  { key: "stores", label: "Магазины", short: "Адреса", Icon: MapPin, title: "Магазины", subtitle: "Адреса, часы работы, телефоны и фото заведений" },
+  { key: "contacts", label: "Контакты", short: "Связь", Icon: Phone, title: "Контакты", subtitle: "Телефон, почта и соцсети в футере сайта" },
   { key: "orders", label: "Заказы", Icon: ShoppingBag, title: "Оплаченные заказы", subtitle: "Новые оплаты появляются здесь автоматически" },
-  { key: "users", label: "Пользователи", Icon: Users, title: "Пользователи", subtitle: "Поиск пользователей и управление правами администраторов" },
+  { key: "users", label: "Пользователи", short: "Люди", Icon: Users, title: "Пользователи", subtitle: "Поиск пользователей и управление правами администраторов" },
 ];
 
 const slugify = (t: string) => {
@@ -159,9 +159,9 @@ export default function AdminDashboard() {
         <Link href="/" className={s.brand}><BookMarked size={30} /><div><b>РАРИТЕТ</b><small>панель управления</small></div></Link>
         <p className={s.navLabel}>Разделы</p>
         <nav className={s.nav} aria-label="Разделы админки">
-          {NAV.map(({ key, label, Icon }) => (
-            <button key={key} className={`${s.navItem} ${tab === key ? s.navItemActive : ""}`} aria-current={tab === key ? "page" : undefined} onClick={() => openTab(key)}>
-              <Icon /><span>{label}</span>{key === "books" && <em className={s.navCount}>{books.length}</em>}
+          {NAV.map(({ key, label, short, Icon }) => (
+            <button key={key} className={`${s.navItem} ${tab === key ? s.navItemActive : ""}`} aria-current={tab === key ? "page" : undefined} aria-label={label} onClick={() => openTab(key)}>
+              <Icon /><span className={s.navText}>{label}</span><span className={s.navShort} aria-hidden="true">{short ?? label}</span>{key === "books" && <em className={s.navCount}>{books.length}</em>}
             </button>
           ))}
         </nav>
