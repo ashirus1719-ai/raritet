@@ -1,6 +1,9 @@
-.storePage,
-
-
+.storePage {
+  min-height: 100vh;
+  background: var(--bg, #f4f6f2);
+  color: var(--ink, #14251f);
+  font-family: var(--sans, "Segoe UI", sans-serif);
+}
 
 .catalogHero {
   position: relative;
