@@ -17,9 +17,16 @@ const inter = Inter({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+const SITE_TITLE = "Раритет — книжный магазин в Бишкеке";
+const SITE_DESCRIPTION = "Книги, детская литература, издания о Кыргызстане и подарочные альбомы. Книжный магазин «Раритет» в Бишкеке.";
+
 export const metadata: Metadata = {
-  title: "Раритет — книжный магазин в Бишкеке",
-  description: "Книги, детская литература, издания о Кыргызстане и подарочные альбомы. Книжный магазин «Раритет» в Бишкеке.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://raritet-books.vercel.app"),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  // The preview image itself comes from app/opengraph-image.jpg and app/twitter-image.jpg.
+  openGraph: { type: "website", siteName: "Раритет", locale: "ru_RU", title: SITE_TITLE, description: SITE_DESCRIPTION },
+  twitter: { card: "summary_large_image", title: SITE_TITLE, description: SITE_DESCRIPTION },
 };
 
 // Tablets show the desktop layout scaled down to fit, instead of the phone layout:
