@@ -110,3 +110,126 @@
 .signOutButton:hover {
   border-color: #173f2e;
 }
+
+/* Google button per Google branding: white, outlined, with the "G" mark */
+.googleButton {
+  gap: 10px;
+  border: 1px solid #d6d0c5;
+  background: #fff;
+  color: #1f1f1f;
+}
+
+.googleButton:hover {
+  background: #f7f7f7;
+  border-color: #b9b2a6;
+}
+
+.authBox {
+  display: grid;
+  gap: 16px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  border-radius: 999px;
+  background: #efe7da;
+}
+
+.tabs button {
+  min-height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #58645d;
+  font: 600 13px var(--font-inter), Arial, sans-serif;
+  cursor: pointer;
+}
+
+.tabs .tabActive {
+  background: #fff;
+  color: #173f2e;
+  box-shadow: 0 2px 8px #17221914;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.form label {
+  display: grid;
+  gap: 6px;
+  color: #3e5145;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid #d9cebe;
+  border-radius: 12px;
+  background: #fff;
+  color: #14271e;
+  font: 15px var(--font-inter), Arial, sans-serif;
+}
+
+.form input:focus {
+  outline: 2px solid #173f2e33;
+  border-color: #173f2e;
+}
+
+.hint {
+  color: #8b8475;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f6e3dd;
+  color: #8d3a2f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.submitButton {
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  background: #173f2e;
+  color: #fff;
+  font: 600 14px var(--font-inter), Arial, sans-serif;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.submitButton:hover {
+  background: #24563e;
+}
+
+.submitButton:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #8b8475;
+  font-size: 12px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: #e0d6c7;
+}

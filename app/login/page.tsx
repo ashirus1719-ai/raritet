@@ -1,11 +1,17 @@
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { auth, signOut } from "@/auth";
-import GoogleSignInButton from "./GoogleSignInButton";
+import LoginForm from "./LoginForm";
 import styles from "./login.module.css";
 
-export default async function LoginPage() {
-  const session = await auth();
+const OAUTH_ERRORS: Record<string, string> = {
+  OAuthAccountNotLinked: "Этот e-mail уже связан с другим способом входа. Войдите тем способом, которым регистрировались.",
+  AccessDenied: "Вход отменён или запрещён.",
+  Configuration: "Вход временно недоступен. Попробуйте позже или войдите по e-mail.",
+};
+
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const [session, { error }] = await Promise.all([auth(), searchParams]);
   const googleConfigured = Boolean(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET);
 
   return (
@@ -32,19 +38,13 @@ export default async function LoginPage() {
           <>
             <p className={styles.eyebrow}>Личный кабинет</p>
             <h1>Войти или зарегистрироваться</h1>
-            <p className={styles.description}>
-              Продолжите с Google. Если вы здесь впервые, мы создадим обычный аккаунт пользователя.
-            </p>
-            {googleConfigured ? (
-              <GoogleSignInButton />
-            ) : (
-              <p className={styles.notice}>Вход через Google пока не настроен.</p>
-            )}
+            <p className={styles.description}>По e-mail и паролю или через Google — как удобнее.</p>
+            <LoginForm googleEnabled={googleConfigured} initialError={error ? OAUTH_ERRORS[error] ?? "Не удалось войти. Попробуйте ещё раз." : undefined} />
           </>
         )}
 
         <p className={styles.note}>Права администратора выдаются отдельно через список пользователей в админке.</p>
-        <p className={styles.note}>Продолжая с Google, вы соглашаетесь с <Link href="/privacy">Политикой конфиденциальности</Link> и <Link href="/terms">Условиями использования</Link>.</p>
+        <p className={styles.note}>Входя или регистрируясь, вы соглашаетесь с <Link href="/privacy">Политикой конфиденциальности</Link> и <Link href="/terms">Условиями использования</Link>.</p>
         <Link className={styles.backLink} href="/">Вернуться на сайт</Link>
       </section>
     </main>
