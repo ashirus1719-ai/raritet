@@ -138,3 +138,9 @@
   .museum-banner{background-color:#102c20!important;background-size:100% 100%,100% 100%,cover!important;background-position:center,center,62% center!important}
   .store-photo{background-image:linear-gradient(180deg,rgba(247,240,230,0) 78%,var(--bg) 100%),url("/images/raritet-store-interior.png")!important;background-size:100% 100%,cover!important;background-position:center,center 55%!important;border-radius:14px 14px 0 0}
 }
+/* Narrow desktop windows: the 5:1 museum banner would otherwise grow wider than the screen to keep its min-height. */
+@media(max-width:1000px){.museum-banner{aspect-ratio:auto!important}}
+@media(min-width:651px) and (max-width:900px){.about-feature{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.about-feature-copy{min-width:0;margin-inline:6%;padding-left:22px}.about-feature h2{font-size:28px}}
+/* Safety net against decorative pieces poking past the screen edge; clip (unlike hidden) keeps position:sticky working. */
+html,body{overflow-x:clip}
+.site-header nav a{white-space:nowrap}

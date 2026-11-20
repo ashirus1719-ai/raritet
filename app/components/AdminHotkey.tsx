@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LayoutDashboard } from "lucide-react";
 
 export default function AdminHotkey() {
   const [isAdmin, setIsAdmin] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     let active = true;
@@ -16,7 +18,8 @@ export default function AdminHotkey() {
     return () => { active = false; };
   }, []);
 
-  if (!isAdmin) return null;
+  // Inside the panel itself the shortcut is pointless and would cover the save bar.
+  if (!isAdmin || pathname.startsWith("/admin")) return null;
 
   return (
     <Link

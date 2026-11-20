@@ -158,14 +158,16 @@ export default function AdminDashboard() {
       <aside className={s.sidebar}>
         <Link href="/" className={s.brand}><BookMarked size={30} /><div><b>РАРИТЕТ</b><small>панель управления</small></div></Link>
         <p className={s.navLabel}>Разделы</p>
-        {NAV.map(({ key, label, Icon }) => (
-          <button key={key} className={`${s.navItem} ${tab === key ? s.navItemActive : ""}`} onClick={() => openTab(key)}>
-            <Icon /><span>{label}</span>{key === "books" && <em className={s.navCount}>{books.length}</em>}
-          </button>
-        ))}
+        <nav className={s.nav} aria-label="Разделы админки">
+          {NAV.map(({ key, label, Icon }) => (
+            <button key={key} className={`${s.navItem} ${tab === key ? s.navItemActive : ""}`} aria-current={tab === key ? "page" : undefined} onClick={() => openTab(key)}>
+              <Icon /><span>{label}</span>{key === "books" && <em className={s.navCount}>{books.length}</em>}
+            </button>
+          ))}
+        </nav>
         <div className={s.sidebarFoot}>
-          <Link href="/" target="_blank" className={s.btnSide}><ExternalLink /><span>Открыть сайт</span></Link>
-          <button className={s.btnSide} onClick={logout}><LogOut /><span>Выйти</span></button>
+          <Link href="/" target="_blank" className={s.btnSide} aria-label="Открыть сайт" title="Открыть сайт"><ExternalLink /><span>Открыть сайт</span></Link>
+          <button className={s.btnSide} onClick={logout} aria-label="Выйти" title="Выйти"><LogOut /><span>Выйти</span></button>
         </div>
       </aside>
 

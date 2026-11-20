@@ -998,3 +998,6 @@
   .storesPage{background-color:#102e20!important}
   .bookBanner{margin:14px 5%!important;border:1px solid #b99a62!important;box-shadow:none!important;background-color:#163b2a}
 }
+
+/* The header floats over the photo: a soft light band keeps the right-hand icons and «Войти» readable. */
+@media(min-width:601px){.siteHeader{background:linear-gradient(180deg,rgba(248,239,223,.94) 0%,rgba(248,239,223,.72) 62%,rgba(248,239,223,0) 100%)!important}}

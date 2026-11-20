@@ -538,3 +538,9 @@
   .noteStar:before,.noteStar:after{content:"";flex:1;height:1px;background:#cdb88f}
 }
 
+
+/* The header floats over the photo: a soft light band keeps the right-hand icons and «Войти» readable. */
+@media(min-width:651px){.header{background:linear-gradient(180deg,rgba(247,239,223,.94) 0%,rgba(247,239,223,.72) 62%,rgba(247,239,223,0) 100%)!important}}
+@media(min-width:651px) and (max-width:900px){.header{padding-inline:3.5%!important}.header :global(.wordmark){font-size:22px}.header :global(.brand-mark){width:30px;height:30px}.header :global(nav){gap:12px;font-size:12px}.header :global(.header-tools){gap:12px}}
+/* Phones: the stores link is already in the bottom bar, so the header keeps room for «Войти». */
+@media(max-width:650px){.header :global(.header-tools){gap:12px}.header :global(.header-tools>a[href="/stores"]){display:none}}

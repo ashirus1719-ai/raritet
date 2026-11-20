@@ -333,3 +333,23 @@ textarea.input { resize: vertical; min-height: 84px; line-height: 1.5; }
   .toolbar .chips { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; }
   .search { max-width: none; }
 }
+
+/* Sidebar nav: a plain column on desktop. */
+.nav { display: contents; }
+/* Tablets see the desktop layout (scaled), so keep four stat cards in a row while there is room. */
+@media (min-width: 861px) and (max-width: 1100px) {
+  .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+/* Phones: brand + actions on top, then a swipeable row of labelled sections. */
+@media (max-width: 860px) {
+  .sidebar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 8px; padding: 10px 12px 8px; overflow: visible; }
+  .brand { grid-column: 1; grid-row: 1; min-width: 0; }
+  .sidebarFoot { grid-column: 2; grid-row: 1; margin: 0; gap: 6px; }
+  .btnSide { padding: 8px 10px; }
+  .nav { grid-column: 1 / -1; display: flex; gap: 6px; overflow-x: auto; margin: 0 -12px; padding: 0 12px 4px; scrollbar-width: none; scroll-snap-type: x proximity; }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav .navItem { flex: none; gap: 8px; padding: 8px 12px; font-size: 13px; scroll-snap-align: start; }
+  .nav .navItem span { display: inline; }
+  .nav .navCount { display: inline-block; }
+  .toolbar .chips { scrollbar-width: none; padding-bottom: 2px; }
+}
