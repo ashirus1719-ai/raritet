@@ -6,6 +6,7 @@ import SiteFooter from "@/app/components/SiteFooter";
 import { ArrowRight, BookOpen, FlaskConical, Gift, GraduationCap, Languages, Mountain, Search, Smile } from "lucide-react";
 import CartLink from "@/app/components/CartLink";
 import AccountButton from "@/app/components/AccountButton";
+import AdminNavLink from "@/app/components/AdminNavLink";
 
 const categories = [
   { title: "Художественная литература", Icon: BookOpen, href: "/books" },
@@ -38,7 +39,7 @@ export default function Home() {
     <div className="first-screen">
     <header className="site-header">
       <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={37} strokeWidth={1.5} /><span>РАРИТЕТ<small>КНИГИ · КУЛЬТУРА · КЫРГЫЗСТАН</small></span></Link>
-      <nav aria-label="Основная навигация"><Link href="/" aria-current="page">Главная</Link><Link href="/books">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores">Магазины</Link><a href="#contacts">Контакты</a></nav>
+      <nav aria-label="Основная навигация"><Link href="/" aria-current="page">Главная</Link><Link href="/books">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores">Магазины</Link><a href="#contacts">Контакты</a><AdminNavLink /></nav>
       <div className="header-tools"><Link href="/books" aria-label="Поиск книг"><Search size={21} /></Link><CartLink /><AccountButton /></div>
     </header>
 

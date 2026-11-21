@@ -7,6 +7,7 @@ import styles from "./stores.module.css";
 import { getContent } from "@/lib/site-content";
 import CartLink from "@/app/components/CartLink";
 import AccountButton from "@/app/components/AccountButton";
+import AdminNavLink from "@/app/components/AdminNavLink";
 
 export const metadata: Metadata = {
   title: "Магазины в Бишкеке | Раритет",
@@ -22,7 +23,7 @@ export default async function StoresPage() {
       <div className={styles.artWrap}>
       <header className={`site-header ${styles.siteHeader}`}>
         <Link className="wordmark" href="/" aria-label="Раритет — главная"><BookOpen className="brand-mark" size={39}/><span>РАРИТЕТ</span></Link>
-        <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores" aria-current="page">Магазины</Link><Link href="/#contacts">Контакты</Link></nav>
+        <nav aria-label="Основная навигация"><Link href="/">Главная</Link><Link href="/books">Каталог</Link><Link href="/about">О компании</Link><Link href="/stores" aria-current="page">Магазины</Link><Link href="/#contacts">Контакты</Link><AdminNavLink /></nav>
         <div className="header-tools"><Link href="/books" aria-label="Поиск"><Search size={21}/></Link><CartLink /><AccountButton /></div>
       </header>
       <section className={styles.hero}>

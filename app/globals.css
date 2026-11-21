@@ -144,3 +144,4 @@
 /* Safety net against decorative pieces poking past the screen edge; clip (unlike hidden) keeps position:sticky working. */
 html,body{overflow-x:clip}
 .site-header nav a{white-space:nowrap}
+.site-header nav a.nav-admin{color:#8a6a2f;font-weight:600}
